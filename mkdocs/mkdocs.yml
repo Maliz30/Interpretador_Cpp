@@ -46,10 +46,20 @@ extra_css: [stylesheets/extra.css]
 # Page tree
 nav: 
   - Início: index.md
+  # - O Interpretador:
+    # - Como configurar o ambiente: (baixar e rodar o arquivo + saídas esperadas)
+    # - Subconjunto de C++ a ser suportado
+  - Organização e Planejamento:
+    - Planejamento das sprints: organizacao-planejamento/planejamento.md
+    - Cronograma interno detalhado: organizacao-planejamento/cronograma-interno.md
+    - Boas Práticas: organizacao-planejamento/boas-praticas.md
   - Documentação de Sprints: 
-    - Planejamento das sprints: sprints/planejamento.md
     - Template: sprints/template.md
   - Ponto de Controle 1: ponto-controle-1/index.md
+    # - Analisador Léxico
+    # - Slide
+    # - Testes realizados
+    # - Tratamento de erros
   # - Ponto de Controle 2: ponto-controle-2/index.md
   # - Entrega Final: entrega-final/index.md
     # - Estrutura do projeto:
