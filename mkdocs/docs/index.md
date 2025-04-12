@@ -56,11 +56,10 @@ A documentação do projeto e os códigos desenvolvidos estão disponiveis nesse
 
 ## Instruções para colaboradores
 
-**Para desenvolver a documentação:**
-
-**Requisitos:**
+**Requisitos para desenvolver a documentação:**
 
 - pip
+- mkdocs-material
 
 **Uso:**
 
