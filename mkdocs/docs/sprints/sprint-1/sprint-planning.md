@@ -5,7 +5,7 @@
 
 | Sprint  | 1             |
 |---------|---------------|
-| Início  | 24/03/2025    |
+| Início  | 09/04/2025    |
 | Término | 14/04/2025    |
 | Duração | 22 dias       |
 
@@ -79,6 +79,6 @@ A sprint foi decidida presencialmente entre os integrantes.
 
 | Versão    | Data           |  Descrição         | Autor(es)                            | Revisor(es)                            |
 | --------- | -------------- | ------------------ | ------------------------------------ | -------------------------------------- |
-| 1.0       | 28/03/2025     | Criação da Sprint 01           | [Luis Miranda](https://github.com/LuisMiranda10)          | [Maria Alice](https://github.com/Maliz30)            |
+| 1.0       | 09/04/2025     | Criação da Sprint 01           | [Luis Miranda](https://github.com/LuisMiranda10)          | [Maria Alice](https://github.com/Maliz30)            |
 
 </center>
