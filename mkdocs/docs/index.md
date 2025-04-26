@@ -3,7 +3,9 @@
 
 ## Sobre
 
+Este projeto faz parte da disciplina Compiladores 1 (2025/1), ministrada pelo professor Sergio Antônio Andrade de Freitas na Universidade de Brasília. A proposta, desenvolvida com base na metodologia Problem Based Learning (PBL), visa consolidar os conhecimentos adquiridos ao longo do semestre por meio do desenvolvimento prático de um interpretador.
 
+O interpretador está sendo construído com as ferramentas Flex (para análise léxica) e Bison (para análise sintática), integradas a um ambiente em C/C++.
 
 ## Membros da equipe
 
@@ -83,9 +85,10 @@ Documentação oficial do [mkdocs-material](https://squidfunk.github.io/mkdocs-m
 
 ## Histórico de Versões
 
-| Versão |    Data    | Descrição                                 | Autor(es)                                       | Revisor(es)                                    |
-| ------ | :--------: | ----------------------------------------- | ----------------------------------------------- | ---------------------------------------------- |
-| 1.0    | 09/04/2025 | Criação da página                         | [Maria Alice](https://github.com/Maliz30)  | [Nicolas Bomfim](https://github.com/NickGehjk)      |
+| Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
+|--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
+| 1.0    | 09/04/2025 | Criação da página               | [Maria Alice](https://github.com/Maliz30) | [Nicolas Bomfim](https://github.com/NickGehjk)      |
+| 1.1    | 25/04/2025 | Adição do texto sobre o projeto | [Maria Alice](https://github.com/Maliz30) | [Gabriel Saraiva](https://github.com/gabrielsarcan) |
 
 
 </center>

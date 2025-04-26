@@ -1,31 +1,25 @@
 
 # Cronograma do Projeto
 
-Com auxílio da LLM [Deepseek](https://chat.deepseek.com/), foi gerado um cronograma para ser executado ao longo do desenvolvimento do interpretador. O cronograma foi ajustado para se adequar as necessidades da equipe e as datas de entrega da disciplina.
+Com auxílio do [cronograma planejado pelo professor](https://github.com/Maliz30/Compiladores-1-Material-de-Aula/blob/main/semana%2001/docs/Guia%20-%20Projeto%20de%20um%20interpretador.md), a equipe gerou um novo cronograma para ser executado ao longo do desenvolvimento do interpretador. O cronograma foi ajustado para se adequar as necessidades da equipe e as datas de entrega da disciplina.
 
-Uma versão detalhada contendo a divisão de tarefas entre os membros por sprint pode ser encontrada [aqui](./cronograma-interno.md).
 
 
 ## Visão Geral
 
 | Sprint | Período       | Objetivo Principal                   | Entregáveis                                  |
 |--------|---------------|--------------------------------------|----------------------------------------------|
-| 1      | 07/04 - 13/04 | Definição do projeto e ambiente      | Documentação inicial, escolha de ferramentas |
-| 2      | 14/04 - 20/04 | Desenvolvimento do analisador léxico | Especificação léxica completa                |
-| 3      | 21/04 - 27/04 | Implementação do léxico              | Analisador léxico funcional (P1)             |
-| 4      | 28/04 - 04/05 | Análise sintática inicial            | Gramática básica definida                    |
-| 5      | 05/05 - 11/05 | Implementação do parser              | Parser funcional para subconjunto C++        |
-| 6      | 12/05 - 18/05 | Análise semântica inicial            | Tabela de símbolos básica                    |
-| 7      | 19/05 - 25/05 | Geração de código intermediário      | Tradutor para Python simples (P2)            |
-| 8      | 26/05 - 01/06 | Otimização e testes                  | Melhorias no código gerado                   |
-| 9      | 02/05 - 08/06 | Tratamento de erros                  | Sistema de mensagens de erro                 |
-| 10     | 09/05 - 15/06 | Testes integrados                    | Casos de teste completos                     |
-| 11     | 16/05 - 22/06 | Ajustes Finais                       | Documentação final, vídeo de apresentação    |
+| 1      | 09/04 - 14/04 | Definição do projeto e ambiente      | Documentação inicial, escolha de ferramentas |
+| 2      | 15/04 - 30/04 | Desenvolver do analisador léxico e analisador sintático | Arquivo .l completo, Primeiras regras sintáticas no arquivo .y e Formulário de P1              |
+| 3      | 01/05 - 14/05 | Árvore Sintática Abstrata (AST) e Análise semântica | AST consolidada, Módulo de análise semântica inicial e Parser que constrói a AST           |
+| 4      | 15/05 - 04/06 | Geração de código intermediário      | Módulo interpretador, Análise semântica mais robusta e Formulário do P2            |
+| 5      | 05/06 - 25/06 | Otimização e testes                  | Interpretador ampliado, com eventuais otimizações e funcionalidades extras, Testes e Versão final pronta    |
+| 6      | 26/06 - 09/07 | Ajustes Finais                       | Entrevistas de entrega, Documentação completa e Ajustes finais (caso necessário)    |
 
 ## Detalhamento por Sprint
 
-### Sprint 1  - Definição do Projeto
-_(07/04 - 13/04)_
+### Sprint 1
+_(09/04 - 14/04)_
 
 **Objetivo:** Estabelecer fundamentos do projeto
 
@@ -37,151 +31,87 @@ _(07/04 - 13/04)_
 - Planejamento das sprints
 - Definição do subconjunto C++ a ser suportado
 
+<br>
 
-### Sprint 2 - Análise Léxica
-_(14/04 - 20/04)_
+Acesso rápido a documentação dessa sprint:
+
+- [planning](../sprints/sprint-1/sprint-planning.md)
+- [review](../sprints/sprint-1/sprint-review.md)
+
+### Sprint 2
+_(15/04 - 30/04)_
 
 **Objetivo:** Especificar e implementar tokens básicos
 
 **Tarefas:**
 
 - Definição de tokens para tipos básicos (int, float, bool, string, etc.)
-- Expressões regulares para operadores (+,-,&&,||,==,!=,++,--)
+- Expressões regulares para operadores (+, -, &&, ||, ==, !=, ++, --)
 - Tratamento de comentários e whitespace
-- Implementação do scanner/lexer
+- Implementação do lexer e do parser
 - Testes unitários para tokens
-- Atualização da documentação
+- Preparação para P1
+
+<br>
+
+Acesso rápido a documentação dessa sprint:
+
+- [planning](../sprints/sprint-2/sprint-planning.md)
+- [review](../sprints/sprint-2/sprint-review.md)
 
 
-### Sprint 3 - Finalização Léxica (Ponto de controle 1)
-_(21/04 - 27/04)_
+### Sprint 3
+_(01/05 - 14/05)_
 
-**Objetivo:** Lexer completo e preparação para P1
-
-**Tarefas:**
-
-- Tratamento de erros léxicos
-- Otimização do lexer
-- Integração com sistema de arquivos
-- Testes com exemplos reais
-- Preparação da apresentação P1 (Slide)
-- Documentação final do léxico
-
-
-### Sprint 4 - Análise Sintática Inicial
-_(28/04 - 04/05)_
-
-**Objetivo:** Gramática básica para declarações
+**Objetivo:** Criar a Árvore Sintática Abstrata (AST) e Análise semântica básica
 
 **Tarefas:**
 
-- Gramática para declaração de variáveis
-- Gramática para estruturas de controle (if, for)
-- Implementação do parser básico
-- Geração de Árvore Sintática Abstrata (AST) simples
-- Testes com exemplos simples
-- Revisão do Cronograma
-- Atualização da documentação
+- Implementar as ações semânticas no arquivo .y
+- Criar tabela de símbolos
+- Tratar erros sintáticos e semânticos básicos
+- Testar a AST em pequenos programas
 
-### Sprint 5 - Parser Completo
-_(05/05 - 11/05)_
+### Sprint 4
+_(15/05 - 04/06)_
 
-**Objetivo:** Parser para subconjunto C++ completo
+**Objetivo:** Implementar a interpretação da AST, Aprimorar a análise semântica e preparação para o P2
 
 **Tarefas:**
 
-- Gramática para funções
-- Gramática para classes (simples)
-- Tratamento de erros sintáticos
-- Otimização do parser
-- Testes integrados lexer+parser
-- Documentação da gramática
+- Criar a lógica de interpretação recursiva
+- Consolidar estruturas de controle 
+- Testes com códigos reais e extensos
+- Preparação para P2
 
-### Sprint 6  - Análise Semântica
-_(12/05 - 18/05)_
+### Sprint 5
+_(05/06 - 25/06)_
 
-**Objetivo:** Verificação de tipos e escopo
+**Objetivo:** Interpretador ampliado e versão final pronta
 
 **Tarefas:**
 
-- Tabela de símbolos básica
-- Verificação de tipos simples
-- Verificação de escopo
-- Mensagens de erro semânticas
-- Testes semânticos
-- Documentação semântica
+- Implementar otimizações simples 
+- Estender a linguagem com novos recursos (se possível no tempo restante)
+- Testes finais
+- Entrega final no GitHub
 
-### Sprint 7 - Geração de Código (Ponto de controle 2)
-_(19/05 - 25/05)_
-
-**Objetivo:** Tradutor C++ → Python funcional
-
-**Tarefas:**
-
-- Tradução de expressões
-- Tradução de estruturas de controle
-- Tradução de funções
-- Testes de tradução
-- Preparação da apresentação P2 (Slide)
-- Documentação do tradutor
-
-### Sprint 8 - Otimização
-_(26/05 - 01/06)_
-
-**Objetivo:** Melhorar qualidade do código gerado
-
-**Tarefas::**
-
-- Otimização de expressões
-- Testes de desempenho
-- Correção de bugs
-- Revisão do Cronograma
-- Atualização da documentação
-
-### Sprint 9 - Tratamento de Erros
-_(02/06 - 08/06)_
-
-**Objetivo:** Sistema robusto de mensagens
-
-**Tarefas::**
-
-- Mensagens de erro claras
-- Recuperação de erros
-- Logging de processos
-- Testes de falha
-- Documentação de erros
-
-### Sprint 10 - Testes Integrados
-_(09/06 - 15/06)_
-
-**Objetivo:** Validação completa
-
-**Tarefas::**
-
-- Casos de teste complexos
-- Testes de regressão
-- Validação com exemplos reais
-- Relatório de testes
-- Polimento da documentação
-
-### Sprint 11 - Ajustes Finais
-_(16/06 - 22/06)_
+### Sprint 6
+_(26/06 - 09/07)_
 
 **Objetivo:** Preparação para entrega final
 
 **Tarefas::**
 
-- Testes finais
-- Revisão final de código
 - Revisão da documentação
+- Revisão final de código
+- Corrigir eventuais falhas
 - Preparação da entrevista
-- Slides da apresentação
-- Vídeo de apresentação
 
-- Entrega final no GitHub
 
 ## Histórico de Versão
 
-| Versão | Data | Descrição | Autor | Revisor |
-|--------|------|-----------|-------|---------|
-| `1.0`  |11/04/2025| Criação do cronograma | [Maria Alice](https://github.com/Maliz30) |[Luis Miranda](https://github.com/LuisMiranda10)  |
+| Versão | Data       | Descrição                                       | Autor                                     | Revisor      |
+|--------|------------|-------------------------------------------------|-------------------------------------------|--------------|
+| `1.0`  | 11/04/2025 | Criação do cronograma                           | [Maria Alice](https://github.com/Maliz30) | [Luis Miranda](https://github.com/LuisMiranda10) |
+| `1.1`  | 25/04/2025 | Reajuste e correções nas datas do no cronograma | [Maria Alice](https://github.com/Maliz30) | [Milena Baruc](https://github.com/MilenaBaruc)   |
