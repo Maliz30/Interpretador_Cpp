@@ -8,8 +8,6 @@ int yylex(void);
 void yyerror(const char *s);
 %}
 
-
-
 %union {
     int v_int;           
     float v_float;      
@@ -36,7 +34,19 @@ void yyerror(const char *s);
 %token TOKEN_AUTO
 %token TOKEN_VOID
 
-%token TOKEN_ID
+%token TOKEN_INCLUDE
+%token TOKEN_USING
+%token TOKEN_NAMESPACE
+%token TOKEN_COUT
+%token TOKEN_CIN
+%token TOKEN_ENDL
+%token TOKEN_RETURN
+
+%token TOKEN_IF
+%token TOKEN_ELSE
+%token TOKEN_WHILE
+%token TOKEN_FOR
+%token TOKEN_BREAK
 
 %token TOKEN_COMMA;
 %token TOKEN_SEMICOLON
@@ -45,53 +55,73 @@ void yyerror(const char *s);
 %token TOKEN_LBRACE
 %token TOKEN_RBRACE
 
+%token TOKEN_HASH
+%token TOKEN_LT
+%token TOKEN_GT
+%token TOKEN_SHIFT_L
+%token TOKEN_SHIFT_R
+%token TOKEN_DOUBLE_COLON
+%token TOKEN_DOUBLE_QUOTES
+%token TOKEN_SINGLE_QUOTES
 
+%token TOKEN_EQ
+%token TOKEN_NEQ
+%token TOKEN_LEQ
+%token TOKEN_GEQ
+%token TOKEN_AND
+%token TOKEN_OR
 
-%token <intValue> NUM /* Apagar após corrigir a soma de números*/
-%token '+' '-' '*' '/'
+%token TOKEN_ASSIGN
+%token TOKEN_PLUS
+%token TOKEN_MINUS
+%token TOKEN_MUL
+%token TOKEN_DIV
 
-%type <intValue> expressao termo fator
+%token TOKEN_NUMBER
+%token TOKEN_BOOL_LITERAL
 
+%token TOKEN_ID
+%token TOKEN_STRING_LITERAL
+
+%token TOKEN_ERROR
 
 %start programa
 
 %%
 
+
+
 programa:
-    expressao                 { printf("Resultado: %d\n", $1); }
+    programa_declaracao
+    | programa programa_declaracao
+;
+
+programa_declaracao:
+    chamada_biblioteca
+    | declaracao_namespace
     | declaracao_variavel
     | declaracao_funcao
     | definicao_funcao
 ;
 
-expressao:
-      expressao '+' termo    { $$ = $1 + $3; }
-    | expressao '-' termo    { $$ = $1 - $3; }
-    | termo                  { $$ = $1; }
-    ;
-
-termo:
-      termo '*' fator        { $$ = $1 * $3; }
-    | termo '/' fator        { $$ = $1 / $3; }
-    | fator                  { $$ = $1; }
-    ;
-
-fator:
-      NUM                    { $$ = $1; }
-    ;
-
-
-
 definicao_funcao:
-    tipos TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE escopo_funcao TOKEN_RBRACE
+    tipos TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
     {
         printf("Definição de função reconhecida\n");
     }
 ;
 
-escopo_funcao:
+bloco_escopo:
     /* Escopo vazio */
-    | declaracao_variavel /* Adicionar mais opçoes de escopo -> Pendente */
+    | bloco_escopo operacoes_possiveis
+;
+
+operacoes_possiveis:
+    declaracao_variavel
+    | declaracao_funcao
+    | saida_dados
+    | entrada_dados
+    | return
 ;
 
 declaracao_funcao:
@@ -109,6 +139,35 @@ parametros_funcao:
 declaracao_parametro:
     tipos TOKEN_ID
     | declaracao_parametro TOKEN_COMMA tipos TOKEN_ID
+;
+
+entrada_dados:
+    TOKEN_CIN entrada_dados_parametros TOKEN_SEMICOLON
+    {
+        printf("Entrada de dados reconhecida\n");
+    }
+;
+
+entrada_dados_parametros:
+    TOKEN_SHIFT_R TOKEN_ID
+    | entrada_dados_parametros TOKEN_SHIFT_R TOKEN_ID
+;
+
+saida_dados:
+    TOKEN_COUT saida_dados_parametro TOKEN_SEMICOLON
+    {
+        printf("Saída de dados reconhecida\n");
+    }
+;
+
+saida_dados_parametro:
+    saida_dados_lista_parametros
+    | saida_dados_parametro saida_dados_lista_parametros
+;
+
+saida_dados_lista_parametros:
+    TOKEN_SHIFT_L TOKEN_STRING_LITERAL 
+    | TOKEN_SHIFT_L TOKEN_ENDL 
 ;
 
 declaracao_variavel:
@@ -132,6 +191,30 @@ tipos:
     | TOKEN_AUTO      
     | TOKEN_VOID
 ;
+
+return:
+    TOKEN_RETURN TOKEN_NUMBER TOKEN_SEMICOLON
+    {
+        printf("Retorno de função reconhecido\n");
+    }
+;
+
+declaracao_namespace:
+    TOKEN_USING TOKEN_NAMESPACE TOKEN_ID TOKEN_SEMICOLON
+    {
+        printf("Declaração de namespace reconhecida\n");
+    }
+;
+
+chamada_biblioteca:
+    TOKEN_HASH TOKEN_INCLUDE TOKEN_LT TOKEN_ID TOKEN_GT
+    {
+        printf("Chamada de biblioteca reconhecida\n");
+
+    }
+;
+
+
 
 %%
 
