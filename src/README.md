@@ -6,7 +6,13 @@
 
 ## Passo a passo
 
-- rode o bison `bison -d nomeDoArquivoSintatico.y`
-- rode o léxico `$ flex nomeDoArquivoLexico.l`
-- gere o executável `gcc -o nomeDoExecutavel parser.tab.c lex.yy.c -lfl`
-- rode `./nomeDoExecutavel`
+Dentro da pasta _/parser_:
+- rode o bison: `bison -d parser.y`
+
+Dentro da pasta _/lexer_:
+- rode o léxico: `$ flex lexer.l`
+
+Dentro da pasta _/src_:
+- gere o executável: `gcc -o executavel parser/parser.tab.c lexer/lex.yy.c -lfl`
+- rode (inserindo dados manualmente): `./executavel`
+- rode (inserindo um arquivo de teste): `./executavel < codigos_teste/nomeArquivoDeTeste.cpp`
