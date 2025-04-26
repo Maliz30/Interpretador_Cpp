@@ -76,6 +76,7 @@ void yyerror(const char *s);
 %token TOKEN_MINUS
 %token TOKEN_MUL
 %token TOKEN_DIV
+%token TOKEN_MOD
 
 %token TOKEN_NUMBER
 %token TOKEN_BOOL_LITERAL
@@ -105,7 +106,7 @@ programa_declaracao:
 ;
 
 definicao_funcao:
-    tipos TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
+    tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
     {
         printf("Definição de função reconhecida\n");
     }
@@ -121,11 +122,12 @@ operacoes_possiveis:
     | declaracao_funcao
     | saida_dados
     | entrada_dados
+    | operacao_matematica_atribuicao_valor
     | return
 ;
 
 declaracao_funcao:
-    tipos TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_SEMICOLON
+    tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_SEMICOLON
     {
         printf("Declaração de função reconhecida\n");
     }
@@ -133,12 +135,34 @@ declaracao_funcao:
 
 parametros_funcao:
     /* sem parametros */ 
-    | declaracao_parametro
+    | funcao_declaracao_parametro
 ;
 
-declaracao_parametro:
-    tipos TOKEN_ID
-    | declaracao_parametro TOKEN_COMMA tipos TOKEN_ID
+funcao_declaracao_parametro:
+    tipagem TOKEN_ID
+    | funcao_declaracao_parametro   TOKEN_COMMA tipagem TOKEN_ID
+;
+
+operacao_matematica_atribuicao_valor:
+    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                              { printf("Operacao matemática reconhecida\n"); }
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                                { printf("Operacao matemática reconhecida\n"); }
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER  operacao_matematica   TOKEN_SEMICOLON     { printf("Operacao matemática reconhecida\n"); }
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID   operacao_matematica   TOKEN_SEMICOLON        { printf("Operacao matemática reconhecida\n"); }
+;
+
+operacao_matematica:
+   operacao_matematica_tipos   TOKEN_NUMBER 
+   | operacao_matematica_tipos   TOKEN_ID
+   | operacao_matematica   operacao_matematica_tipos   TOKEN_NUMBER
+   | operacao_matematica   operacao_matematica_tipos   TOKEN_ID
+;
+
+operacao_matematica_tipos:
+    TOKEN_PLUS
+    | TOKEN_MINUS
+    | TOKEN_MUL
+    | TOKEN_DIV
+    | TOKEN_MOD
 ;
 
 entrada_dados:
@@ -161,23 +185,28 @@ saida_dados:
 ;
 
 saida_dados_parametro:
-    saida_dados_lista_parametros
-    | saida_dados_parametro saida_dados_lista_parametros
+    TOKEN_SHIFT_L saida_dados_opcoes
+    | saida_dados_parametro TOKEN_SHIFT_L saida_dados_opcoes
 ;
 
-saida_dados_lista_parametros:
-    TOKEN_SHIFT_L TOKEN_STRING_LITERAL 
-    | TOKEN_SHIFT_L TOKEN_ENDL 
+saida_dados_opcoes:
+    TOKEN_ID 
+    | TOKEN_STRING_LITERAL 
+    | TOKEN_ENDL 
 ;
 
 declaracao_variavel:
-    tipos TOKEN_ID TOKEN_SEMICOLON
+    tipagem   variavel   TOKEN_SEMICOLON
     {
         printf("Declaração de variável reconhecida\n");
     }
 ;
 
-tipos:
+variavel:
+    TOKEN_ID 
+    | variavel   TOKEN_COMMA TOKEN_ID 
+
+tipagem:
     TOKEN_INT        
     | TOKEN_FLOAT     
     | TOKEN_DOUBLE    

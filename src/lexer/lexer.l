@@ -64,6 +64,7 @@
 "-"             { return TOKEN_MINUS; }
 "*"             { return TOKEN_MUL; }
 "/"             { return TOKEN_DIV; }
+"%"             { return TOKEN_MOD; }
 
 
 [0-9]+(\.[0-9]+)?                   { return TOKEN_NUMBER; }
