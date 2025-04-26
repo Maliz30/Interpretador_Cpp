@@ -1,5 +1,5 @@
 %{
-#include "parser.tab.h"
+#include "../parser/parser.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -22,57 +22,63 @@
 "void"          { return TOKEN_VOID; }
 "auto"          { return TOKEN_AUTO; }
 
+"include"       { return TOKEN_INCLUDE; }
+"using"         { return TOKEN_USING; }
+"namespace"     { return TOKEN_NAMESPACE; }
+"cout"          { return TOKEN_COUT; }
+"cin"           { return TOKEN_CIN; }
+"endl"          { return TOKEN_ENDL; }
+"return"        { return TOKEN_RETURN; }
+
 "if"            { return TOKEN_IF; }
 "else"          { return TOKEN_ELSE; }
 "while"         { return TOKEN_WHILE; }
 "for"           { return TOKEN_FOR; }
-"return"        { return TOKEN_RETURN; }
-"namespace"     { return TOKEN_NAMESPACE; }
-"std"           { return TOKEN_STD; }
-
 "break"         { return TOKEN_BREAK; }
-"cout"          { return TOKEN_COUT; }
-"cin"           { return TOKEN_CIN; }
 
-">>"            { return TOKEN_SHIFT_R; }
+","             { return TOKEN_COMMA; }
+";"             { return TOKEN_SEMICOLON; }
+"("             { return TOKEN_LPAREN; }
+")"             { return TOKEN_RPAREN; }
+"{"             { return TOKEN_LBRACE; }
+"}"             { return TOKEN_RBRACE; }
+
+"#"             { return TOKEN_HASH; }
+"<"             { return TOKEN_LT; }
+">"             { return TOKEN_GT; }
 "<<"            { return TOKEN_SHIFT_L; }
+">>"            { return TOKEN_SHIFT_R; }
 "::"            { return TOKEN_DOUBLE_COLON; }
+"\""            { return TOKEN_DOUBLE_QUOTES; }
+"\'"            { return TOKEN_SINGLE_QUOTES; }
 
 "=="            { return TOKEN_EQ; }
 "!="            { return TOKEN_NEQ; }
 "<="            { return TOKEN_LEQ; }
 ">="            { return TOKEN_GEQ; }
-"<"             { return TOKEN_LT; }
-">"             { return TOKEN_GT; }
-"="             { return TOKEN_ASSIGN; }
+"&&"            { return TOKEN_AND; }
+"||"            { return TOKEN_OR; }
 
+"="             { return TOKEN_ASSIGN; }
 "+"             { return TOKEN_PLUS; }
 "-"             { return TOKEN_MINUS; }
 "*"             { return TOKEN_MUL; }
 "/"             { return TOKEN_DIV; }
-"\""            { return TOKEN_DOUBLE_QUOTES; }
-"\'"            { return TOKEN_SINGLE_QUOTES; }
 
-";"             { return TOKEN_SEMICOLON; }
-","             { return TOKEN_COMMA; }
-"{"             { return TOKEN_LBRACE; }
-"}"             { return TOKEN_RBRACE; }
-"("             { return TOKEN_LPAREN; }
-")"             { return TOKEN_RPAREN; }
 
 [0-9]+(\.[0-9]+)?                   { return TOKEN_NUMBER; }
 "true"|"false"                      { return TOKEN_BOOL_LITERAL; }
 
 [a-zA-Z_][a-zA-Z0-9_]*              { return TOKEN_ID; }
+\"([^\\\"]|\\.)*\"                  { return TOKEN_STRING_LITERAL; }
 
 "//".*                              { /* ignora comentários de linha */ }
 "/*"([^*]|\*+[^*/])*\*+"/"          { /* ignora comentários de bloco */ }
 
-[ \t\n]+            { /* ignora espaços em branco */ }
-[0-9]+[a-zA-Z_]+    { return TOKEN_ERROR; }        
+[ \t\n]+                            { /* ignora espaços em branco */ }
+[0-9]+[a-zA-Z_]+                    { return TOKEN_ERROR; }        
 
-
-. { freturn(stderr, "Caractere invalido: %s\n", yytext); }
+.                                   { return TOKEN_ERROR;  }
 
 %%
 
@@ -84,6 +90,6 @@ int yywrap(void) {
 
 /* Função principal: chamará o parser ao ser executado */
 int main(int argc, char **argv) {
-    yylex();
+    yyparse();
     return 0;  
 }
