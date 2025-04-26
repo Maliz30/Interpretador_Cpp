@@ -51,15 +51,15 @@ nav:
     # - Subconjunto de C++ a ser suportado
   - Organização e Planejamento:
     - Planejamento das sprints: organizacao-planejamento/planejamento.md
-    - Cronograma interno detalhado: organizacao-planejamento/cronograma-interno.md
     - Boas Práticas: organizacao-planejamento/boas-praticas.md
   - Documentação de Sprints: 
-    - Template: sprints/template.md
+    - Sprint 1:
+      - Planning: sprints/sprint-1/sprint-planning.md
+      - Review: sprints/sprint-1/sprint-review.md
+    - Sprint 2:
+      - Planning: sprints/sprint-2/sprint-planning.md
+      - Review: sprints/sprint-2/sprint-review.md
   - Ponto de Controle 1: ponto-controle-1/index.md
-    # - Analisador Léxico
-    # - Slide
-    # - Testes realizados
-    # - Tratamento de erros
   # - Ponto de Controle 2: ponto-controle-2/index.md
   # - Entrega Final: entrega-final/index.md
     # - Estrutura do projeto:
