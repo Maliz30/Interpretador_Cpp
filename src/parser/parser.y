@@ -90,8 +90,6 @@ void yyerror(const char *s);
 
 %%
 
-
-
 programa:
     programa_declaracao
     | programa programa_declaracao
@@ -123,6 +121,8 @@ operacoes_possiveis:
     | saida_dados
     | entrada_dados
     | operacao_matematica_atribuicao_valor
+    | while_loop
+    | for_loop
     | return
 ;
 
@@ -143,12 +143,35 @@ funcao_declaracao_parametro:
     | funcao_declaracao_parametro   TOKEN_COMMA tipagem TOKEN_ID
 ;
 
-operacao_matematica_atribuicao_valor:
-    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                              { printf("Operacao matemática reconhecida\n"); }
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                                { printf("Operacao matemática reconhecida\n"); }
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER  operacao_matematica   TOKEN_SEMICOLON     { printf("Operacao matemática reconhecida\n"); }
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID   operacao_matematica   TOKEN_SEMICOLON        { printf("Operacao matemática reconhecida\n"); }
+while_loop:
+    TOKEN_WHILE TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
+    {
+        printf("Loop while reconhecido\n");
+    }
 ;
+
+for_loop:
+    TOKEN_FOR TOKEN_LPAREN declaracao_variavel operacao_relacional TOKEN_SEMICOLON incremento TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
+    {
+        printf("Loop for reconhecido\n");
+    }
+;
+
+incremento:
+    TOKEN_ID TOKEN_PLUS TOKEN_PLUS    // i++
+    | TOKEN_ID TOKEN_MINUS TOKEN_MINUS // i--
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID operacao_matematica // i = i + 1
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER operacao_matematica // i = 0 + 1
+;
+
+operacao_matematica_atribuicao_valor:
+    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                              { printf("Operação matemática reconhecida\n"); }
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                                { printf("Operação matemática reconhecida\n"); }
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER  operacao_matematica   TOKEN_SEMICOLON     { printf("Operação matemática reconhecida\n"); }
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID   operacao_matematica   TOKEN_SEMICOLON        { printf("Operação matemática reconhecida\n"); }
+;
+
+
 
 operacao_matematica:
    operacao_matematica_tipos   TOKEN_NUMBER 
@@ -163,6 +186,22 @@ operacao_matematica_tipos:
     | TOKEN_MUL
     | TOKEN_DIV
     | TOKEN_MOD
+    | TOKEN_GT
+    | TOKEN_LT
+;
+
+operacao_relacional:
+    TOKEN_ID operacao_relacional_tipos TOKEN_NUMBER
+    | TOKEN_ID operacao_relacional_tipos TOKEN_ID
+;
+
+operacao_relacional_tipos:
+    TOKEN_LT
+    | TOKEN_GT
+    | TOKEN_LEQ
+    | TOKEN_GEQ
+    | TOKEN_EQ
+    | TOKEN_NEQ
 ;
 
 entrada_dados:
@@ -197,6 +236,7 @@ saida_dados_opcoes:
 
 declaracao_variavel:
     tipagem   variavel   TOKEN_SEMICOLON
+    | tipagem variavel TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON
     {
         printf("Declaração de variável reconhecida\n");
     }
@@ -205,6 +245,8 @@ declaracao_variavel:
 variavel:
     TOKEN_ID 
     | variavel   TOKEN_COMMA TOKEN_ID 
+    | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER
+;
 
 tipagem:
     TOKEN_INT        
@@ -239,11 +281,8 @@ chamada_biblioteca:
     TOKEN_HASH TOKEN_INCLUDE TOKEN_LT TOKEN_ID TOKEN_GT
     {
         printf("Chamada de biblioteca reconhecida\n");
-
     }
 ;
-
-
 
 %%
 
