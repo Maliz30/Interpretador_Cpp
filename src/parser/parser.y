@@ -123,6 +123,7 @@ operacoes_possiveis:
     | operacao_matematica_atribuicao_valor
     | while_loop
     | for_loop
+    | condicional_if
     | return
 ;
 
@@ -162,6 +163,14 @@ incremento:
     | TOKEN_ID TOKEN_MINUS TOKEN_MINUS // i--
     | TOKEN_ID TOKEN_ASSIGN TOKEN_ID operacao_matematica // i = i + 1
     | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER operacao_matematica // i = 0 + 1
+;
+
+condicional_if:
+    TOKEN_IF TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
+    | TOKEN_IF TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE TOKEN_ELSE TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
+    {
+        printf("if reconhecido\n");
+    }
 ;
 
 operacao_matematica_atribuicao_valor:

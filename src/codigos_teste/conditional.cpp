@@ -1,6 +1,15 @@
-/*
+#include <iostream>
 
-Código pendente
-Escrever um código simples que utilize as estruturar de loop que estão no arquivo léxico
+using namespace std;
 
-*/
+int main()
+{
+    int x = 10;
+
+    if (x < 11)
+    {
+        cout << "x < 11 is true!\n";
+    } else {
+        cout << "x < 11 is true!\n";
+    }
+}
