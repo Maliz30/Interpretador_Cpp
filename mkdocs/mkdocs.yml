@@ -45,7 +45,9 @@ extra_css: [stylesheets/extra.css]
 
 # Page tree
 nav: 
-  - Início: index.md
+  - Início: 
+    - Sobre: index.md
+    - Como rodar: como-rodar.md
   # - O Interpretador:
     # - Como configurar o ambiente: (baixar e rodar o arquivo + saídas esperadas)
     # - Subconjunto de C++ a ser suportado
