@@ -1,8 +1,8 @@
 %{
-#include "../parser/parser.tab.h"
+#include "ast/ast.h"
+#include "parser/parser.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
-
 %}
 
 /* Definições de padrões de token e ações */
