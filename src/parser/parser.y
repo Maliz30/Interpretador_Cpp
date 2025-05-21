@@ -1,9 +1,12 @@
+%code requires {
+#include "../ast/ast.h"
+}
 %{
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "ast/ast.h"
+
 int yylex(void);
 void yyerror(const char *s);
 %}
@@ -87,7 +90,6 @@ void yyerror(const char *s);
 
 %type <no> operacao_matematica
 %type <no> operacao_matematica_atribuicao_valor
-%type <no> operacao_matematica_tipos
 
 %token TOKEN_ERROR
 
@@ -189,27 +191,12 @@ operacao_matematica_atribuicao_valor:
     | TOKEN_ID TOKEN_ASSIGN operacao_matematica TOKEN_SEMICOLON                   { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), $3); } 
 ;
 
-// operacao_matematica:
-//     operacao_matematica_tipos TOKEN_NUMBER                                        { $$ = criarNoOp($1->operador, $1, criarNoNum($2)); }
-//     | operacao_matematica_tipos TOKEN_ID                                          { $$ = criarNoOp($1->operador, $1, criarNoId($2, TIPO_INT)); }
-//     | operacao_matematica operacao_matematica_tipos TOKEN_NUMBER                  { $$ = criarNoOp($2->operador, $1, criarNoNum($3)); }
-//     | operacao_matematica operacao_matematica_tipos TOKEN_ID                      { $$ = criarNoOp($2->operador, $1, criarNoId($3, TIPO_INT)); }
-// ;
-
 operacao_matematica:
     TOKEN_ID TOKEN_PLUS TOKEN_ID                          { $$ = criarNoOp('+', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
   | TOKEN_ID TOKEN_MINUS TOKEN_ID                         { $$ = criarNoOp('-', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
   | TOKEN_ID TOKEN_MUL TOKEN_ID                           { $$ = criarNoOp('*', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
   | TOKEN_ID TOKEN_DIV TOKEN_ID                           { $$ = criarNoOp('/', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
   | TOKEN_ID TOKEN_MOD TOKEN_ID                           { $$ = criarNoOp('%', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
-
-operacao_matematica_tipos:
-    TOKEN_PLUS              { $$ = criarNoOp('+', NULL, NULL); }
-    | TOKEN_MINUS           { $$ = criarNoOp('-', NULL, NULL); }
-    | TOKEN_MUL             { $$ = criarNoOp('*', NULL, NULL); }
-    | TOKEN_DIV             { $$ = criarNoOp('/', NULL, NULL); }
-    | TOKEN_MOD             { $$ = criarNoOp('%', NULL, NULL); }
-;
 
 operacao_relacional:
     TOKEN_ID operacao_relacional_tipos TOKEN_NUMBER
@@ -254,22 +241,6 @@ saida_dados_opcoes:
     | TOKEN_STRING_LITERAL 
     | TOKEN_ENDL 
 ;
-
-//APAGAR CASO DE CERTO
-
-// declaracao_variavel:
-//     tipagem variavel TOKEN_SEMICOLON
-//     | tipagem variavel TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON
-//     {
-//         printf("Declaração de variável reconhecida\n");
-//     }
-// ;
-// 
-// variavel:
-//     TOKEN_ID 
-//     | variavel TOKEN_COMMA TOKEN_ID 
-//     | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER
-// ;
 
 declaracao_variavel:
     tipagem variavel TOKEN_SEMICOLON
