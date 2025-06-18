@@ -1,54 +1,56 @@
 # Compilador e flags
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
+FLEX = flex
+BISON = bison
 
 # Diretórios
-AST_DIR = ast
-PARSER_DIR = parser
+SRC_DIR = .
 LEXER_DIR = lexer
+PARSER_DIR = parser
+AST_DIR = ast
+TEST_DIR = codigos_teste
 
-# Arquivos gerados
-FLEX_SRC = $(LEXER_DIR)/lex.yy.c
-BISON_SRC = $(PARSER_DIR)/parser.tab.c
-BISON_HDR = $(PARSER_DIR)/parser.tab.h
-
-# Fontes
-C_SOURCES = $(AST_DIR)/ast.c
-C_OBJECTS = $(C_SOURCES:.c=.o)
+# Arquivos
+LEXER = $(LEXER_DIR)/lex.yy.c
+PARSER_C = $(PARSER_DIR)/parser.tab.c
+PARSER_H = $(PARSER_DIR)/parser.tab.h
+AST = $(AST_DIR)/ast.c
 
 # Executável
-EXEC = compilador
-
-# Includes
-INCLUDES = -I. -I$(AST_DIR) -I$(PARSER_DIR) -I$(LEXER_DIR)
-
-# Bibliotecas
-LIBS = -lfl
-
-# Regra padrão
-all: $(EXEC)
+EXEC = executavel
 
 # Regra principal
-$(EXEC): $(BISON_SRC) $(FLEX_SRC) $(C_OBJECTS)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(BISON_SRC) $(FLEX_SRC) $(C_OBJECTS) $(LIBS)
+all: $(EXEC)
 
-# Regras de Bison com inclusão automática do ast.h
-$(BISON_SRC) $(BISON_HDR): $(PARSER_DIR)/parser.y
-	bison --defines=$(BISON_HDR) --output=$(BISON_SRC) $<
-	@echo "#include \"../ast/ast.h\"" >> $(BISON_HDR)
+# Gera parser
+$(PARSER_C) $(PARSER_H): $(PARSER_DIR)/parser.y
+	$(BISON) -d -o $(PARSER_C) $(PARSER_DIR)/parser.y
 
-$(FLEX_SRC): $(LEXER_DIR)/lexer.l $(BISON_HDR)
-	flex --outfile=$@ $<
+# Gera lexer
+$(LEXER): $(LEXER_DIR)/lexer.l
+	$(FLEX) -o $(LEXER) $(LEXER_DIR)/lexer.l
 
-# Compilar arquivos .c em .o
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# Compila tudo
+$(EXEC): $(PARSER_C) $(LEXER) $(AST)
+	$(CC) $(PARSER_C) $(LEXER) $(AST) -o $(EXEC)
 
-# Limpeza
+# Limpa arquivos gerados
 clean:
-	rm -f $(LEXER_DIR)/lex.yy.c
-	rm -f $(PARSER_DIR)/parser.tab.[ch]
-	rm -f $(C_OBJECTS)
-	rm -f $(EXEC)
+	rm -f $(LEXER) $(PARSER_C) $(PARSER_H) $(EXEC)
 
-.PHONY: all clean
+# Roda o executável manualmente
+run:
+	./$(EXEC)
+
+# Roda com um arquivo de teste
+run-hello:
+	./$(EXEC) < $(TEST_DIR)/hello.cpp
+
+run-conditional:
+	./$(EXEC) < $(TEST_DIR)/conditional.cpp
+
+run-loop:
+	./$(EXEC) < $(TEST_DIR)/loop.cpp
+
+run-math:
+	./$(EXEC) < $(TEST_DIR)/math.cpp
