@@ -33,4 +33,4 @@ NoAST *criarNoId(char *nome, Tipo tipo);
 void imprimirAST(NoAST *no);
 int tiposCompativeis(Tipo t1, Tipo t2);
 
-#endif
+#endif 
