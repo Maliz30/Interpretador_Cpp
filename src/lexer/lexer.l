@@ -2,6 +2,7 @@
 #include "../parser/parser.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 %}
 
 /* Definições de padrões de token e ações */
@@ -66,10 +67,10 @@
 "%"             { return TOKEN_MOD; }
 
 
-[0-9]+(\.[0-9]+)?                   { return TOKEN_NUMBER; }
+[0-9]+(\.[0-9]+)?                   { yylval.v_int = atoi(yytext); return TOKEN_NUMBER; }
 "true"|"false"                      { return TOKEN_BOOL_LITERAL; }
 
-[a-zA-Z_][a-zA-Z0-9_]*              { return TOKEN_ID; }
+[a-zA-Z_][a-zA-Z0-9_]*              { yylval.v_string = strdup(yytext); return TOKEN_ID; }
 \"([^\\\"]|\\.)*\"                  { return TOKEN_STRING_LITERAL; }
 
 "//".*                              { /* ignora comentários de linha */ }

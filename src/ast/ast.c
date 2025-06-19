@@ -7,15 +7,21 @@
 
 NoAST *criarNoOp(char op, NoAST *esq, NoAST *dir) { //
     NoAST *no = malloc(sizeof(NoAST));
+    if (!no) {
+        return NULL;
+    }
     no->operador = op;
     no->esquerda = esq;
     no->direita = dir;
-    no->tipo = (esq->tipo == dir->tipo) ? esq->tipo : TIPO_ERROR;
+    no->tipo = (esq && dir && esq->tipo == dir->tipo) ? esq->tipo : TIPO_ERROR;
     return no;
 }
 
 NoAST *criarNoNum(int val) {
     NoAST *no = malloc(sizeof(NoAST));
+    if (!no) {
+        return NULL;
+    }
     no->valor = val;
     no->operador = 0;
     no->tipo = TIPO_INT; //Ver como fazer cm o TIPO_INT. É uma operação de soma pra cada tipo ou dá pra fazer tudo em uma única função
@@ -25,7 +31,14 @@ NoAST *criarNoNum(int val) {
 
 NoAST *criarNoId(char *nome, Tipo tipo) {
     NoAST *no = malloc(sizeof(NoAST));
-    strcpy(no->nome, nome);
+    if (!no) {
+        return NULL;
+    }
+    if (nome) {
+        strcpy(no->nome, nome);
+    } else {
+        no->nome[0] = '\0';
+    }
     no->operador = 0;
     no->tipo = tipo;
     no->esquerda = no->direita = NULL;
