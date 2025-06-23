@@ -1,3 +1,6 @@
+%code requires {
+#include "../ast/ast.h"
+}
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +22,7 @@ void yyerror(const char *s);
     short v_short;    
     unsigned v_unsigned;  
     signed v_signed;
+    NoAST *no; 
 }
 
 %token <v_int> TOKEN_INT
@@ -48,7 +52,7 @@ void yyerror(const char *s);
 %token TOKEN_FOR
 %token TOKEN_BREAK
 
-%token TOKEN_COMMA;
+%token TOKEN_COMMA
 %token TOKEN_SEMICOLON
 %token TOKEN_LPAREN
 %token TOKEN_RPAREN
@@ -65,7 +69,7 @@ void yyerror(const char *s);
 %token TOKEN_SINGLE_QUOTES
 
 %token TOKEN_EQ
-%token TOKEN_NEQ
+%token TOKEN_NEQ                    
 %token TOKEN_LEQ
 %token TOKEN_GEQ
 %token TOKEN_AND
@@ -78,11 +82,14 @@ void yyerror(const char *s);
 %token TOKEN_DIV
 %token TOKEN_MOD
 
-%token TOKEN_NUMBER
+%token <v_int> TOKEN_NUMBER
 %token TOKEN_BOOL_LITERAL
 
-%token TOKEN_ID
+%token <v_string> TOKEN_ID
 %token TOKEN_STRING_LITERAL
+
+%type <no> operacao_matematica
+%type <no> operacao_matematica_atribuicao_valor
 
 %token TOKEN_ERROR
 
@@ -95,12 +102,13 @@ programa:
     | programa programa_declaracao
 ;
 
+
 programa_declaracao:
-    chamada_biblioteca
-    | declaracao_namespace
-    | declaracao_variavel
-    | declaracao_funcao
-    | definicao_funcao
+    chamada_biblioteca              
+    | declaracao_namespace          
+    | declaracao_variavel           
+    | declaracao_funcao             
+    | definicao_funcao              
 ;
 
 definicao_funcao:
@@ -112,7 +120,7 @@ definicao_funcao:
 
 bloco_escopo:
     /* Escopo vazio */
-    | bloco_escopo operacoes_possiveis
+    | bloco_escopo operacoes_possiveis          
 ;
 
 operacoes_possiveis:
@@ -120,7 +128,11 @@ operacoes_possiveis:
     | declaracao_funcao
     | saida_dados
     | entrada_dados
-    | operacao_matematica_atribuicao_valor
+    | operacao_matematica_atribuicao_valor {
+        printf("AST da operação:\n");
+        imprimirAST($1);
+        printf("\n");
+    }
     | while_loop
     | for_loop
     | condicional_if
@@ -174,30 +186,17 @@ condicional_if:
 ;
 
 operacao_matematica_atribuicao_valor:
-    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                              { printf("Operação matemática reconhecida\n"); }
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                                { printf("Operação matemática reconhecida\n"); }
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER  operacao_matematica   TOKEN_SEMICOLON     { printf("Operação matemática reconhecida\n"); }
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID   operacao_matematica   TOKEN_SEMICOLON        { printf("Operação matemática reconhecida\n"); }
+    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                            { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoNum($3));}
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                              { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT));}
+    | TOKEN_ID TOKEN_ASSIGN operacao_matematica TOKEN_SEMICOLON                   { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), $3); } 
 ;
-
-
 
 operacao_matematica:
-   operacao_matematica_tipos   TOKEN_NUMBER 
-   | operacao_matematica_tipos   TOKEN_ID
-   | operacao_matematica   operacao_matematica_tipos   TOKEN_NUMBER
-   | operacao_matematica   operacao_matematica_tipos   TOKEN_ID
-;
-
-operacao_matematica_tipos:
-    TOKEN_PLUS
-    | TOKEN_MINUS
-    | TOKEN_MUL
-    | TOKEN_DIV
-    | TOKEN_MOD
-    | TOKEN_GT
-    | TOKEN_LT
-;
+    TOKEN_ID TOKEN_PLUS TOKEN_ID                          { $$ = criarNoOp('+', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
+  | TOKEN_ID TOKEN_MINUS TOKEN_ID                         { $$ = criarNoOp('-', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
+  | TOKEN_ID TOKEN_MUL TOKEN_ID                           { $$ = criarNoOp('*', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
+  | TOKEN_ID TOKEN_DIV TOKEN_ID                           { $$ = criarNoOp('/', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
+  | TOKEN_ID TOKEN_MOD TOKEN_ID                           { $$ = criarNoOp('%', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT)); }
 
 operacao_relacional:
     TOKEN_ID operacao_relacional_tipos TOKEN_NUMBER
@@ -244,17 +243,14 @@ saida_dados_opcoes:
 ;
 
 declaracao_variavel:
-    tipagem   variavel   TOKEN_SEMICOLON
-    | tipagem variavel TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON
-    {
-        printf("Declaração de variável reconhecida\n");
-    }
+    tipagem variavel TOKEN_SEMICOLON
 ;
 
 variavel:
-    TOKEN_ID 
-    | variavel   TOKEN_COMMA TOKEN_ID 
-    | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER
+    TOKEN_ID
+  | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER
+  | variavel TOKEN_COMMA TOKEN_ID
+  | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER
 ;
 
 tipagem:
