@@ -67,7 +67,8 @@
 "%"             { return TOKEN_MOD; }
 
 
-[0-9]+(\.[0-9]+)?                   { yylval.v_int = atoi(yytext); return TOKEN_NUMBER; }
+[0-9]+                              { yylval.v_int = atoi(yytext); return TOKEN_NUMBER; }
+[0-9]+\.[0-9]+                      { yylval.v_float = atof(yytext); return TOKEN_FLOAT; }
 "true"|"false"                      { return TOKEN_BOOL_LITERAL; }
 
 [a-zA-Z_][a-zA-Z0-9_]*              { yylval.v_string = strdup(yytext); return TOKEN_ID; }
