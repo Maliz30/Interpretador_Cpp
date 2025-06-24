@@ -92,6 +92,11 @@ void yyerror(const char *s);
 %type <no> operacao_matematica_atribuicao_valor
 %type <no> declaracao_variavel
 %type <no> variavel
+%type <no> condicional_if
+%type <no> operacao_relacional
+%type <no> bloco_escopo
+%type <v_char> operacao_relacional_tipos
+%type <no> operacoes_possiveis
 
 %token TOKEN_ERROR
 
@@ -107,7 +112,6 @@ programa:
     programa_declaracao
     | programa programa_declaracao
 ;
-
 
 programa_declaracao:
     chamada_biblioteca              
@@ -125,24 +129,38 @@ definicao_funcao:
 ;
 
 bloco_escopo:
-    /* Escopo vazio */
-    | bloco_escopo operacoes_possiveis          
+    /* Escopo vazio */ { $$ = NULL; }
+    | bloco_escopo operacoes_possiveis {
+        if ($1 == NULL) {
+            $$ = $2;
+        } else if ($2) {
+            $$ = criarNoOp(';', $1, $2); 
+        } else {
+            $$ = $1;
+        }
+    }
 ;
 
 operacoes_possiveis:
-    declaracao_variavel
-    | declaracao_funcao
-    | saida_dados
-    | entrada_dados
+    declaracao_variavel { $$ = $1; }
+    | declaracao_funcao { $$ = NULL; }
+    | saida_dados { $$ = NULL; }
+    | entrada_dados { $$ = NULL; }
     | operacao_matematica_atribuicao_valor {
         printf("AST da operação:\n");
         imprimirAST($1);
         printf("\n");
+        $$ = $1;
     }
-    | while_loop
-    | for_loop
-    | condicional_if
-    | return
+    | while_loop { $$ = NULL; }
+    | for_loop { $$ = NULL; }
+    | condicional_if {
+        printf("AST do condicional:\n");
+        imprimirAST($1);
+        printf("\n");
+        $$ = $1;
+    }
+    | return { $$ = NULL; }
 ;
 
 declaracao_funcao:
@@ -184,10 +202,11 @@ incremento:
 ;
 
 condicional_if:
-    TOKEN_IF TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
-    | TOKEN_IF TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE TOKEN_ELSE TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
-    {
-        printf("if reconhecido\n");
+    TOKEN_IF TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE {
+        $$ = criarNoCondicional($3, $6, NULL);
+    }
+    | TOKEN_IF TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE TOKEN_ELSE TOKEN_LBRACE bloco_escopo TOKEN_RBRACE {
+        $$ = criarNoCondicional($3, $6, $10);
     }
 ;
 
@@ -222,17 +241,27 @@ operacao_matematica:
 ;
 
 operacao_relacional:
-    TOKEN_ID operacao_relacional_tipos TOKEN_NUMBER
-    | TOKEN_ID operacao_relacional_tipos TOKEN_ID
+    TOKEN_ID operacao_relacional_tipos TOKEN_NUMBER {
+        $$ = criarNoOp($2, criarNoId($1, TIPO_INT), criarNoNum($3));
+    }
+    | TOKEN_ID operacao_relacional_tipos TOKEN_ID {
+        $$ = criarNoOp($2, criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT));
+    }
+    | TOKEN_NUMBER operacao_relacional_tipos TOKEN_ID {
+        $$ = criarNoOp($2, criarNoNum($1), criarNoId($3, TIPO_INT));
+    }
+    | TOKEN_NUMBER operacao_relacional_tipos TOKEN_NUMBER {
+        $$ = criarNoOp($2, criarNoNum($1), criarNoNum($3));
+    }
 ;
 
 operacao_relacional_tipos:
-    TOKEN_LT
-    | TOKEN_GT
-    | TOKEN_LEQ
-    | TOKEN_GEQ
-    | TOKEN_EQ
-    | TOKEN_NEQ
+    TOKEN_LT    { $$ = '<'; }
+    | TOKEN_GT  { $$ = '>'; }
+    | TOKEN_LEQ { $$ = 'L'; } // L para <=
+    | TOKEN_GEQ { $$ = 'G'; } // G para >=
+    | TOKEN_EQ  { $$ = 'E'; } // E para ==
+    | TOKEN_NEQ { $$ = 'N'; } // N para !=
 ;
 
 entrada_dados:
