@@ -97,6 +97,9 @@ void yyerror(const char *s);
 %type <no> bloco_escopo
 %type <v_char> operacao_relacional_tipos
 %type <no> operacoes_possiveis
+%type <no> while_loop
+%type <no> for_loop
+%type <no> incremento
 
 %token TOKEN_ERROR
 
@@ -152,8 +155,18 @@ operacoes_possiveis:
         printf("\n");
         $$ = $1;
     }
-    | while_loop { $$ = NULL; }
-    | for_loop { $$ = NULL; }
+    | while_loop { 
+        printf("AST do loop while:\n");
+        imprimirAST($1);
+        printf("\n");
+        $$ = $1; 
+    }
+    | for_loop { 
+        printf("AST do loop for:\n");
+        imprimirAST($1);
+        printf("\n");
+        $$ = $1; 
+    }
     | condicional_if {
         printf("AST do condicional:\n");
         imprimirAST($1);
@@ -183,22 +196,22 @@ funcao_declaracao_parametro:
 while_loop:
     TOKEN_WHILE TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
     {
-        printf("Loop while reconhecido\n");
+        $$ = criarNoLoop('W', $3, $6);
     }
 ;
 
 for_loop:
     TOKEN_FOR TOKEN_LPAREN declaracao_variavel operacao_relacional TOKEN_SEMICOLON incremento TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
     {
-        printf("Loop for reconhecido\n");
+        $$ = criarNoFor($3, $4, $6, $9);
     }
 ;
 
 incremento:
-    TOKEN_ID TOKEN_PLUS TOKEN_PLUS    // i++
-    | TOKEN_ID TOKEN_MINUS TOKEN_MINUS // i--
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID operacao_matematica // i = i + 1
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER operacao_matematica // i = 0 + 1
+    TOKEN_ID TOKEN_PLUS TOKEN_PLUS                                     { $$ = criarNoOp('P', criarNoId($1, TIPO_INT), NULL); }   
+    | TOKEN_ID TOKEN_MINUS TOKEN_MINUS                                 { $$ = criarNoOp('M', criarNoId($1, TIPO_INT), NULL); } 
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_PLUS TOKEN_NUMBER           { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoOp('+', criarNoId($3, TIPO_INT), criarNoNum($5))); }   
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_MINUS TOKEN_NUMBER          { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoOp('-', criarNoId($3, TIPO_INT), criarNoNum($5))); } 
 ;
 
 condicional_if:
