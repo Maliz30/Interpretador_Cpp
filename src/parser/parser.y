@@ -108,6 +108,7 @@ NoAST *raiz_ast = NULL;
 %type <no> for_loop
 %type <no> incremento
 %type <no> programa
+%type <no> lista_comandos
 %type <no> programa_declaracao
 %type <no> expressao_completa
 %type <no> expressao
@@ -133,19 +134,34 @@ NoAST *raiz_ast = NULL;
 %%
 
 programa:
-    programa_declaracao
+    lista_comandos
     {
         raiz_ast = $1;
     }
-    | programa programa_declaracao
+;
+
+lista_comandos:
+    programa_declaracao
     {
+        printf("DEBUG: lista_comandos com uma declaração\n");
+        $$ = $1;
+    }
+    | lista_comandos programa_declaracao
+    {
+        printf("DEBUG: lista_comandos anexando comando\n");
         if ($1 == NULL) {
-            raiz_ast = $2;
+            printf("DEBUG: $1 é NULL, usando $2\n");
+            $$ = $2;
         } else if ($2) {
-            raiz_ast = criarNoOp(';', $1, $2);
+            printf("DEBUG: criando sequência com ';'\n");
+            $$ = criarNoOp(';', $1, $2);
         } else {
-            raiz_ast = $1;
+            printf("DEBUG: $2 é NULL, usando $1\n");
+            $$ = $1;
         }
+        printf("DEBUG: AST atual: ");
+        imprimirAST($$);
+        printf("\n");
     }
 ;
 

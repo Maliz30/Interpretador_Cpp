@@ -68,7 +68,7 @@ void imprimirAST(NoAST *no) {
         case 'D': 
             printf("DECL(%s)", no->nome);
             break;
-        case 'I': 
+        case 'T': 
             printf("IF(");
             if (no->esquerda) imprimirAST(no->esquerda);
             printf(", ");
@@ -148,6 +148,16 @@ void imprimirAST(NoAST *no) {
             if (no->direita) imprimirAST(no->direita);
             printf(")");
             break;
+        case 'O': // cout
+            printf("COUT(");
+            if (no->esquerda) imprimirAST(no->esquerda);
+            printf(")");
+            break;
+        case 'X': // cin
+            printf("CIN(");
+            if (no->esquerda) imprimirAST(no->esquerda);
+            printf(")");
+            break;
         case '<': 
         case '>': 
         case 'L': 
@@ -204,7 +214,7 @@ NoAST *criarNoCondicional(NoAST *condicao, NoAST *bloco_se, NoAST *bloco_senao) 
     NoAST *no = malloc(sizeof(NoAST));
     if (!no) return NULL;
     
-    no->operador = 'I'; // if
+    no->operador = 'T'; // T de Then (if)
     no->esquerda = condicao;
     
     if (bloco_senao) {
@@ -431,7 +441,7 @@ Valor interpretarAST(NoAST *no) {
             }
             break;
             
-        case 'I': // if
+        case 'T': // if (Then)
             {
                 Valor condicao = interpretarAST(no->esquerda);
                 if (condicao.v_bool) {
@@ -529,7 +539,7 @@ Valor interpretarAST(NoAST *no) {
                 printf("\n");
             }
             break;
-        case 'C': // cin
+        case 'X': // cin
             {
                 NoAST *param = no->esquerda;
                 while (param) {
@@ -604,7 +614,7 @@ NoAST *criarNoSaida(NoAST *param) {
 NoAST *criarNoEntrada(NoAST *param) {
     NoAST *no = malloc(sizeof(NoAST));
     if (!no) return NULL;
-    no->operador = 'C'; // C de Console input
+    no->operador = 'X'; // X de Console input
     no->esquerda = param;
     no->direita = NULL;
     no->tipo = TIPO_VOID;
