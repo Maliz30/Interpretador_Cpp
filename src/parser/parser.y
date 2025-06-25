@@ -6,10 +6,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "../ast/ast.h"
 
 int yylex(void);
 void yyerror(const char *s);
+
+// Variável global para a raiz da AST
+NoAST *raiz_ast = NULL;
 %}
+
+// Forward declaration para o union
+// struct noAST;
 
 %union {
     int v_int;           
@@ -100,6 +107,8 @@ void yyerror(const char *s);
 %type <no> while_loop
 %type <no> for_loop
 %type <no> incremento
+%type <no> programa
+%type <no> programa_declaracao
 
 %token TOKEN_ERROR
 
@@ -113,7 +122,19 @@ void yyerror(const char *s);
 
 programa:
     programa_declaracao
+    {
+        raiz_ast = $1;
+    }
     | programa programa_declaracao
+    {
+        if ($1 == NULL) {
+            raiz_ast = $2;
+        } else if ($2) {
+            raiz_ast = criarNoOp(';', $1, $2);
+        } else {
+            raiz_ast = $1;
+        }
+    }
 ;
 
 programa_declaracao:
@@ -122,6 +143,11 @@ programa_declaracao:
     | declaracao_variavel           
     | declaracao_funcao             
     | definicao_funcao              
+    | operacao_matematica_atribuicao_valor
+    | while_loop
+    | for_loop
+    | condicional_if
+    | return
 ;
 
 definicao_funcao:
@@ -317,10 +343,18 @@ declaracao_variavel:
 ;
 
 variavel:
-    TOKEN_ID { $$ = criarNoId($1, TIPO_INT); }
-  | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoNum($3)); }
-  | variavel TOKEN_COMMA TOKEN_ID { $$ = criarNoOp(',', $1, criarNoId($3, TIPO_INT)); }
-  | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { $$ = criarNoOp(',', $1, criarNoOp('=', criarNoId($3, TIPO_INT), criarNoNum($5))); }
+    TOKEN_ID { 
+        $$ = criarNoDeclaracao(TIPO_INT, $1);
+    }
+  | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { 
+        $$ = criarNoOp('=', criarNoDeclaracao(TIPO_INT, $1), criarNoNum($3));
+    }
+  | variavel TOKEN_COMMA TOKEN_ID { 
+        $$ = criarNoOp(',', $1, criarNoDeclaracao(TIPO_INT, $3)); 
+    }
+  | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { 
+        $$ = criarNoOp(',', $1, criarNoOp('=', criarNoDeclaracao(TIPO_INT, $3), criarNoNum($5))); 
+    }
 ;
 
 tipagem:
@@ -363,4 +397,23 @@ chamada_biblioteca:
 
 void yyerror(const char *s) {
     fprintf(stderr, "Erro sintático: %s\n", s);
+}
+
+int main(int argc, char **argv) {
+    int resultado = yyparse();
+    
+    if (resultado == 0 && raiz_ast) {
+        printf("AST gerada com sucesso!\n");
+        printf("AST completa:\n");
+        imprimirAST(raiz_ast);
+        printf("\n\n");
+        
+        // Executar o programa
+        executarPrograma(raiz_ast);
+        
+        // Liberar memória
+        liberarAST(raiz_ast);
+    }
+    
+    return resultado;
 }

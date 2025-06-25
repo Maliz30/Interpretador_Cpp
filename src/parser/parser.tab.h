@@ -44,6 +44,12 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 1 "parser/parser.y"
+
+#include "../ast/ast.h"
+
+#line 53 "parser/parser.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -117,7 +123,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 11 "parser/parser.y"
+#line 21 "parser/parser.y"
 
     int v_int;           
     float v_float;      
@@ -131,7 +137,7 @@ union YYSTYPE
     signed v_signed;
     NoAST *no; 
 
-#line 135 "parser/parser.tab.h"
+#line 141 "parser/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -147,4 +153,3 @@ int yyparse (void);
 
 
 #endif /* !YY_YY_PARSER_PARSER_TAB_H_INCLUDED  */
-#include "../ast/ast.h"
