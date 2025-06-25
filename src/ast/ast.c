@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ast.h"
+#include "../tabela_simbolos/tabela.h"
 
-NoAST *criarNoOp(char op, NoAST *esq, NoAST *dir) { //
+// Variável global para a tabela de símbolos
+TabelaSimbolos* tabela_global = NULL;
+
+NoAST *criarNoOp(char op, NoAST *esq, NoAST *dir) {
     NoAST *no = malloc(sizeof(NoAST));
     if (!no) {
         return NULL;
@@ -20,9 +24,21 @@ NoAST *criarNoNum(int val) {
     if (!no) {
         return NULL;
     }
-    no->valor = val;
+    no->valor.v_int = val;
     no->operador = 0;
-    no->tipo = TIPO_INT; //Ver como fazer cm o TIPO_INT. É uma operação de soma pra cada tipo ou dá pra fazer tudo em uma única função
+    no->tipo = TIPO_INT;
+    no->esquerda = no->direita = NULL;
+    return no;
+}
+
+NoAST *criarNoFloat(float val) {
+    NoAST *no = malloc(sizeof(NoAST));
+    if (!no) {
+        return NULL;
+    }
+    no->valor.v_float = val;
+    no->operador = 0;
+    no->tipo = TIPO_FLOAT;
     no->esquerda = no->direita = NULL;
     return no;
 }
@@ -153,7 +169,7 @@ void imprimirAST(NoAST *no) {
             if (strlen(no->nome) > 0) {
                 printf("%s", no->nome);
             } else {
-                printf("%d", no->valor);
+                printf("%d", no->valor.v_int);
             }
             break;
         default: 
@@ -222,43 +238,296 @@ NoAST *criarNoLoop(char tipo_loop, NoAST *condicao, NoAST *corpo) {
     return no;
 }
 
-NoAST *criarNoFor(NoAST *init, NoAST *condicao, NoAST *incremento, NoAST *corpo) {
+NoAST *criarNoFor(NoAST *inicializacao, NoAST *condicao, NoAST *incremento, NoAST *corpo) {
     NoAST *no = malloc(sizeof(NoAST));
     if (!no) return NULL;
     
-    no->operador = 'F'; // for loop
-    no->tipo = TIPO_VOID;
+    no->operador = 'F';
     
+    // Criar nó para inicialização e condição
     NoAST *init_cond = malloc(sizeof(NoAST));
     if (!init_cond) {
         free(no);
         return NULL;
     }
-    init_cond->operador = 'C'; // componentes do for
-    init_cond->esquerda = init;
+    init_cond->operador = 'C';
+    init_cond->esquerda = inicializacao;
     init_cond->direita = condicao;
-    init_cond->tipo = TIPO_VOID;
     
-    NoAST *incr_corpo = malloc(sizeof(NoAST));
-    if (!incr_corpo) {
-        free(no);
+    // Criar nó para incremento e corpo
+    NoAST *incr_body = malloc(sizeof(NoAST));
+    if (!incr_body) {
         free(init_cond);
+        free(no);
         return NULL;
     }
-    incr_corpo->operador = 'R'; // R para Remainder (incremento+corpo)
-    incr_corpo->esquerda = incremento;
-    incr_corpo->direita = corpo;
-    incr_corpo->tipo = TIPO_VOID;
+    incr_body->operador = 'R';
+    incr_body->esquerda = incremento;
+    incr_body->direita = corpo;
     
     no->esquerda = init_cond;
-    no->direita = incr_corpo;
+    no->direita = incr_body;
     
     return no;
 }
 
 void liberarAST(NoAST *no) {
     if (!no) return;
+    
     liberarAST(no->esquerda);
     liberarAST(no->direita);
     free(no);
+}
+
+// Função principal de interpretação
+Valor interpretarAST(NoAST *no) {
+    if (!no) {
+        Valor vazio = {0};
+        return vazio;
+    }
+    
+    Valor resultado = {0};
+    
+    switch(no->operador) {
+        case 0: // Nó folha (número ou identificador)
+            if (strlen(no->nome) > 0) {
+                // É um identificador
+                Simbolo* simbolo = buscarSimbolo(tabela_global, no->nome);
+                if (!simbolo) {
+                    printf("ERRO: Variável '%s' não declarada\n", no->nome);
+                    return resultado;
+                }
+                if (!simbolo->inicializada) {
+                    printf("ERRO: Variável '%s' não inicializada\n", no->nome);
+                    return resultado;
+                }
+                resultado = simbolo->valor;
+            } else {
+                // É um número
+                switch(no->tipo) {
+                    case TIPO_INT:
+                        resultado.v_int = no->valor.v_int;
+                        break;
+                    case TIPO_FLOAT:
+                        resultado.v_float = no->valor.v_float;
+                        break;
+                    default:
+                        resultado.v_int = no->valor.v_int;
+                        break;
+                }
+            }
+            break;
+            
+        case '=': // Atribuição
+            {
+                Valor valor_direita = interpretarAST(no->direita);
+                if (strlen(no->esquerda->nome) > 0) {
+                    Simbolo* simbolo = buscarSimbolo(tabela_global, no->esquerda->nome);
+                    if (!simbolo) {
+                        printf("ERRO: Variável '%s' não declarada\n", no->esquerda->nome);
+                        return resultado;
+                    }
+                    atualizarValorSimbolo(tabela_global, no->esquerda->nome, valor_direita);
+                    resultado = valor_direita;
+                }
+            }
+            break;
+            
+        case '+':
+            {
+                Valor esq = interpretarAST(no->esquerda);
+                Valor dir = interpretarAST(no->direita);
+                if (no->tipo == TIPO_FLOAT) {
+                    resultado.v_float = esq.v_float + dir.v_float;
+                } else {
+                    resultado.v_int = esq.v_int + dir.v_int;
+                }
+            }
+            break;
+            
+        case '-':
+            {
+                Valor esq = interpretarAST(no->esquerda);
+                Valor dir = interpretarAST(no->direita);
+                if (no->tipo == TIPO_FLOAT) {
+                    resultado.v_float = esq.v_float - dir.v_float;
+                } else {
+                    resultado.v_int = esq.v_int - dir.v_int;
+                }
+            }
+            break;
+            
+        case '*':
+            {
+                Valor esq = interpretarAST(no->esquerda);
+                Valor dir = interpretarAST(no->direita);
+                if (no->tipo == TIPO_FLOAT) {
+                    resultado.v_float = esq.v_float * dir.v_float;
+                } else {
+                    resultado.v_int = esq.v_int * dir.v_int;
+                }
+            }
+            break;
+            
+        case '/':
+            {
+                Valor esq = interpretarAST(no->esquerda);
+                Valor dir = interpretarAST(no->direita);
+                if (dir.v_int == 0) {
+                    printf("ERRO: Divisão por zero\n");
+                    return resultado;
+                }
+                if (no->tipo == TIPO_FLOAT) {
+                    resultado.v_float = esq.v_float / dir.v_float;
+                } else {
+                    resultado.v_int = esq.v_int / dir.v_int;
+                }
+            }
+            break;
+            
+        case '%':
+            {
+                Valor esq = interpretarAST(no->esquerda);
+                Valor dir = interpretarAST(no->direita);
+                if (dir.v_int == 0) {
+                    printf("ERRO: Módulo por zero\n");
+                    return resultado;
+                }
+                resultado.v_int = esq.v_int % dir.v_int;
+            }
+            break;
+            
+        case '<':
+        case '>':
+        case 'L': // <=
+        case 'G': // >=
+        case 'E': // ==
+        case 'N': // !=
+            {
+                Valor esq = interpretarAST(no->esquerda);
+                Valor dir = interpretarAST(no->direita);
+                int resultado_bool = 0;
+                
+                switch(no->operador) {
+                    case '<': resultado_bool = esq.v_int < dir.v_int; break;
+                    case '>': resultado_bool = esq.v_int > dir.v_int; break;
+                    case 'L': resultado_bool = esq.v_int <= dir.v_int; break;
+                    case 'G': resultado_bool = esq.v_int >= dir.v_int; break;
+                    case 'E': resultado_bool = esq.v_int == dir.v_int; break;
+                    case 'N': resultado_bool = esq.v_int != dir.v_int; break;
+                }
+                resultado.v_bool = resultado_bool;
+            }
+            break;
+            
+        case 'I': // if
+            {
+                Valor condicao = interpretarAST(no->esquerda);
+                if (condicao.v_bool) {
+                    interpretarAST(no->direita);
+                } else if (no->direita && no->direita->operador == 'B') {
+                    // Tem else
+                    interpretarAST(no->direita->direita);
+                }
+            }
+            break;
+            
+        case 'W': // while
+            {
+                while (1) {
+                    Valor condicao = interpretarAST(no->esquerda);
+                    if (!condicao.v_bool) break;
+                    interpretarAST(no->direita);
+                }
+            }
+            break;
+            
+        case 'F': // for
+            {
+                // Inicialização
+                if (no->esquerda && no->esquerda->operador == 'C') {
+                    interpretarAST(no->esquerda->esquerda); // inicialização
+                    
+                    // Loop
+                    while (1) {
+                        Valor condicao = interpretarAST(no->esquerda->direita); // condição
+                        if (!condicao.v_bool) break;
+                        
+                        interpretarAST(no->direita->direita); // corpo
+                        interpretarAST(no->direita->esquerda); // incremento
+                    }
+                }
+            }
+            break;
+            
+        case 'P': // ++
+            {
+                if (strlen(no->esquerda->nome) > 0) {
+                    Simbolo* simbolo = buscarSimbolo(tabela_global, no->esquerda->nome);
+                    if (simbolo) {
+                        simbolo->valor.v_int++;
+                        resultado.v_int = simbolo->valor.v_int;
+                    }
+                }
+            }
+            break;
+            
+        case 'M': // --
+            {
+                if (strlen(no->esquerda->nome) > 0) {
+                    Simbolo* simbolo = buscarSimbolo(tabela_global, no->esquerda->nome);
+                    if (simbolo) {
+                        simbolo->valor.v_int--;
+                        resultado.v_int = simbolo->valor.v_int;
+                    }
+                }
+            }
+            break;
+            
+        case 'D': // declaração
+            {
+                if (strlen(no->nome) > 0) {
+                    inserirSimbolo(tabela_global, no->nome, converterTipo(no->tipo));
+                }
+            }
+            break;
+            
+        case ';': // sequência
+            interpretarAST(no->esquerda);
+            interpretarAST(no->direita);
+            break;
+            
+        case ',': // lista
+            interpretarAST(no->esquerda);
+            interpretarAST(no->direita);
+            break;
+            
+        default:
+            printf("Operador não implementado: %c\n", no->operador);
+            break;
+    }
+    
+    return resultado;
+}
+
+void executarPrograma(NoAST *raiz) {
+    if (!raiz) return;
+    
+    // Criar tabela de símbolos global
+    tabela_global = criarTabelaSimbolos();
+    if (!tabela_global) {
+        printf("ERRO: Não foi possível criar tabela de símbolos\n");
+        return;
+    }
+    
+    printf("=== EXECUTANDO PROGRAMA ===\n");
+    interpretarAST(raiz);
+    printf("=== PROGRAMA FINALIZADO ===\n");
+    
+    // Imprimir estado final da tabela de símbolos
+    imprimirTabelaSimbolos(tabela_global);
+    
+    // Limpar tabela de símbolos
+    destruirTabelaSimbolos(tabela_global);
+    tabela_global = NULL;
 }
