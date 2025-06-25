@@ -109,6 +109,8 @@ NoAST *raiz_ast = NULL;
 %type <no> incremento
 %type <no> programa
 %type <no> programa_declaracao
+%type <no> expressao_completa
+%type <no> expressao
 
 %token TOKEN_ERROR
 
@@ -148,6 +150,38 @@ programa_declaracao:
     | for_loop
     | condicional_if
     | return
+    | expressao_completa
+;
+
+expressao_completa:
+    TOKEN_ID TOKEN_ASSIGN expressao TOKEN_SEMICOLON
+    {
+        $$ = criarNoOp('=', criarNoId($1, TIPO_INT), $3);
+    }
+    | TOKEN_ID TOKEN_PLUS TOKEN_PLUS TOKEN_SEMICOLON
+    {
+        $$ = criarNoOp('P', criarNoId($1, TIPO_INT), NULL);
+    }
+    | TOKEN_ID TOKEN_MINUS TOKEN_MINUS TOKEN_SEMICOLON
+    {
+        $$ = criarNoOp('M', criarNoId($1, TIPO_INT), NULL);
+    }
+;
+
+expressao:
+    operacao_matematica
+    | TOKEN_NUMBER
+    {
+        $$ = criarNoNum($1);
+    }
+    | TOKEN_ID
+    {
+        $$ = criarNoId($1, TIPO_INT);
+    }
+    | TOKEN_LPAREN operacao_matematica TOKEN_RPAREN
+    {
+        $$ = $2;
+    }
 ;
 
 definicao_funcao:
