@@ -143,25 +143,17 @@ programa:
 lista_comandos:
     programa_declaracao
     {
-        printf("DEBUG: lista_comandos com uma declaração\n");
         $$ = $1;
     }
     | lista_comandos programa_declaracao
     {
-        printf("DEBUG: lista_comandos anexando comando\n");
         if ($1 == NULL) {
-            printf("DEBUG: $1 é NULL, usando $2\n");
             $$ = $2;
         } else if ($2) {
-            printf("DEBUG: criando sequência com ';'\n");
             $$ = criarNoOp(';', $1, $2);
         } else {
-            printf("DEBUG: $2 é NULL, usando $1\n");
             $$ = $1;
         }
-        printf("DEBUG: AST atual: ");
-        imprimirAST($$);
-        printf("\n");
     }
 ;
 
@@ -415,11 +407,17 @@ variavel:
   | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { 
         $$ = criarNoOp('=', criarNoDeclaracao(TIPO_INT, $1), criarNoNum($3));
     }
+  | TOKEN_ID TOKEN_ASSIGN operacao_matematica { 
+        $$ = criarNoOp('=', criarNoDeclaracao(TIPO_INT, $1), $3);
+    }
   | variavel TOKEN_COMMA TOKEN_ID { 
         $$ = criarNoOp(',', $1, criarNoDeclaracao(TIPO_INT, $3)); 
     }
   | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { 
         $$ = criarNoOp(',', $1, criarNoOp('=', criarNoDeclaracao(TIPO_INT, $3), criarNoNum($5))); 
+    }
+  | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN operacao_matematica { 
+        $$ = criarNoOp(',', $1, criarNoOp('=', criarNoDeclaracao(TIPO_INT, $3), $5)); 
     }
 ;
 
@@ -469,7 +467,6 @@ void yyerror(const char *s) {
 }
 
 int main(int argc, char **argv) {
-    printf("DEBUG: main do parser iniciado\n");
     if (argc > 1) {
         FILE *f = fopen(argv[1], "r");
         if (!f) {
@@ -479,7 +476,6 @@ int main(int argc, char **argv) {
         yyin = f;
     }
     int resultado = yyparse();
-    printf("DEBUG: yyparse retornou %d\n", resultado);
     if (resultado == 0 && raiz_ast) {
         printf("AST gerada com sucesso!\n");
         printf("AST completa:\n");
