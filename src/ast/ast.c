@@ -322,12 +322,22 @@ Valor interpretarAST(NoAST *no) {
             {
                 Valor valor_direita = interpretarAST(no->direita);
                 if (strlen(no->esquerda->nome) > 0) {
-                    Simbolo* simbolo = buscarSimbolo(tabela_global, no->esquerda->nome);
-                    if (!simbolo) {
-                        printf("ERRO: Variável '%s' não declarada\n", no->esquerda->nome);
-                        return resultado;
+                    // Verificar se é uma declaração (operador 'D')
+                    if (no->esquerda->operador == 'D') {
+                        // É uma declaração com atribuição
+                        inserirSimbolo(tabela_global, no->esquerda->nome, converterTipo(no->esquerda->tipo));
+                        atualizarValorSimbolo(tabela_global, no->esquerda->nome, valor_direita);
+                        printf("Variável '%s' declarada e inicializada com valor %d\n", no->esquerda->nome, valor_direita.v_int);
+                    } else {
+                        // É uma atribuição simples
+                        Simbolo* simbolo = buscarSimbolo(tabela_global, no->esquerda->nome);
+                        if (!simbolo) {
+                            printf("ERRO: Variável '%s' não declarada\n", no->esquerda->nome);
+                            return resultado;
+                        }
+                        atualizarValorSimbolo(tabela_global, no->esquerda->nome, valor_direita);
+                        printf("Variável '%s' atualizada com valor %d\n", no->esquerda->nome, valor_direita.v_int);
                     }
-                    atualizarValorSimbolo(tabela_global, no->esquerda->nome, valor_direita);
                     resultado = valor_direita;
                 }
             }
