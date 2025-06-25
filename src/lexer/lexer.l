@@ -89,9 +89,3 @@
 int yywrap(void) {
     return 1;
 }
-
-/* Função principal: chamará o parser ao ser executado */
-int main(int argc, char **argv) {
-    yyparse();
-    return 0;  
-}

@@ -352,8 +352,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 60
-#define YY_END_OF_BUFFER 61
+#define YY_NUM_RULES 61
+#define YY_END_OF_BUFFER 62
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -363,24 +363,24 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[167] =
     {   0,
-        0,    0,   61,   59,   57,   57,   59,   37,   31,   50,
-       59,   38,   27,   28,   48,   46,   25,   47,   49,   51,
-       59,   26,   32,   45,   33,   53,   53,   53,   53,   53,
-       53,   53,   53,   53,   53,   53,   53,   53,   53,   53,
-       53,   29,   59,   30,   57,   40,    0,   54,    0,   43,
-        0,   55,    0,   51,   58,   36,   34,   41,   39,   42,
-       35,   53,   53,   53,   53,   53,   53,   53,   53,   53,
-       53,   53,   53,   53,   20,   53,   53,   53,   53,   53,
-       53,   53,   53,   53,   53,   53,   53,   44,    0,    0,
-       55,   51,   53,   53,   53,   53,   17,   53,   53,   53,
+        0,    0,   62,   60,   58,   58,   60,   37,   31,   50,
+       60,   38,   27,   28,   48,   46,   25,   47,   49,   51,
+       60,   26,   32,   45,   33,   54,   54,   54,   54,   54,
+       54,   54,   54,   54,   54,   54,   54,   54,   54,   54,
+       54,   29,   60,   30,   58,   40,    0,   55,    0,   43,
+        0,   56,    0,   51,   59,   36,   34,   41,   39,   42,
+       35,   54,   54,   54,   54,   54,   54,   54,   54,   54,
+       54,   54,   54,   54,   20,   54,   54,   54,   54,   54,
+       54,   54,   54,   54,   54,   54,   54,   44,    0,    0,
+       56,   52,   54,   54,   54,   54,   17,   54,   54,   54,
 
-       53,   53,   53,   23,   53,    1,   53,   53,   53,   53,
-       53,   53,   53,   53,   53,   53,   53,   56,   12,    5,
-       53,    4,   16,   53,   21,   18,   53,   53,   53,    7,
-       53,   53,   53,   53,   53,   52,   53,   53,   11,   53,
-       24,   53,    2,   53,   53,   53,    8,   53,   53,   53,
-       14,   22,    3,   53,   53,   19,   10,    6,   53,   13,
-       53,   53,   53,    9,   15,    0
+       54,   54,   54,   23,   54,    1,   54,   54,   54,   54,
+       54,   54,   54,   54,   54,   54,   54,   57,   12,    5,
+       54,    4,   16,   54,   21,   18,   54,   54,   54,    7,
+       54,   54,   54,   54,   54,   53,   54,   54,   11,   54,
+       24,   54,    2,   54,   54,   54,    8,   54,   54,   54,
+       14,   22,    3,   54,   54,   19,   10,    6,   54,   13,
+       54,   54,   54,    9,   15,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -548,10 +548,10 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "lexer/lexer.l"
 #line 2 "lexer/lexer.l"
-#include "ast/ast.h"
-#include "parser/parser.tab.h"
+#include "../parser/parser.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #line 556 "lexer/lex.yy.c"
 /* Definições de padrões de token e ações */
 #line 558 "lexer/lex.yy.c"
@@ -1084,57 +1084,62 @@ YY_RULE_SETUP
 case 51:
 YY_RULE_SETUP
 #line 70 "lexer/lexer.l"
-{ return TOKEN_NUMBER; }
+{ yylval.v_int = atoi(yytext); return TOKEN_NUMBER; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 71 "lexer/lexer.l"
-{ return TOKEN_BOOL_LITERAL; }
+{ yylval.v_float = atof(yytext); return TOKEN_FLOAT; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 73 "lexer/lexer.l"
-{ return TOKEN_ID; }
+#line 72 "lexer/lexer.l"
+{ return TOKEN_BOOL_LITERAL; }
 	YY_BREAK
 case 54:
-/* rule 54 can match eol */
 YY_RULE_SETUP
 #line 74 "lexer/lexer.l"
-{ return TOKEN_STRING_LITERAL; }
+{ yylval.v_string = strdup(yytext); return TOKEN_ID; }
 	YY_BREAK
 case 55:
+/* rule 55 can match eol */
 YY_RULE_SETUP
-#line 76 "lexer/lexer.l"
-{ /* ignora comentários de linha */ }
+#line 75 "lexer/lexer.l"
+{ return TOKEN_STRING_LITERAL; }
 	YY_BREAK
 case 56:
-/* rule 56 can match eol */
 YY_RULE_SETUP
 #line 77 "lexer/lexer.l"
-{ /* ignora comentários de bloco */ }
+{ /* ignora comentários de linha */ }
 	YY_BREAK
 case 57:
 /* rule 57 can match eol */
 YY_RULE_SETUP
-#line 79 "lexer/lexer.l"
-{ /* ignora espaços em branco */ }
+#line 78 "lexer/lexer.l"
+{ /* ignora comentários de bloco */ }
 	YY_BREAK
 case 58:
+/* rule 58 can match eol */
 YY_RULE_SETUP
 #line 80 "lexer/lexer.l"
-{ return TOKEN_ERROR; }        
+{ /* ignora espaços em branco */ }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 82 "lexer/lexer.l"
-{ return TOKEN_ERROR;  }
+#line 81 "lexer/lexer.l"
+{ return TOKEN_ERROR; }        
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 84 "lexer/lexer.l"
+#line 83 "lexer/lexer.l"
+{ return TOKEN_ERROR;  }
+	YY_BREAK
+case 61:
+YY_RULE_SETUP
+#line 85 "lexer/lexer.l"
 ECHO;
 	YY_BREAK
-#line 1138 "lexer/lex.yy.c"
+#line 1143 "lexer/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2139,17 +2144,11 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 84 "lexer/lexer.l"
+#line 85 "lexer/lexer.l"
 
 
 /* Função auxiliar do Flex (quando termina o arquivo de entrada) */
 
 int yywrap(void) {
     return 1;
-}
-
-/* Função principal: chamará o parser ao ser executado */
-int main(int argc, char **argv) {
-    yyparse();
-    return 0;  
 }
