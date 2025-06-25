@@ -60,6 +60,9 @@ run-math:
 run-entrada-saida:
 	./$(EXEC) < $(TEST_DIR)/entrada_saida.cpp
 
+run-teste_expressao:
+	./$(EXEC) < $(TEST_DIR)/teste_expressao.cpp
+
 # Teste simples
 test-simple:
 	echo "int a = 5; int b = 3; int c = a + b;" | ./$(EXEC)

@@ -72,7 +72,14 @@ gcc parser/parser.tab.c lexer/lex.yy.c ast/ast.c tabela_simbolos/tabela.c -o int
 ./interpretador
 
 # Execução com arquivo de teste
+./interpretador < codigos_teste/hello.cpp
+./interpretador < codigos_teste/math.cpp
+./interpretador < codigos_teste/conditional.cpp
+./interpretador < codigos_teste/loop.cpp
+./interpretador < codigos_teste/entrada_saida.cpp
 ./interpretador < codigos_teste/simple.cpp
+./interpretador < codigos_teste/teste_simples.cpp
+./interpretador < codigos_teste/teste_expressao.cpp
 
 # Testes específicos
 make run-hello
