@@ -10,7 +10,7 @@
 
 int yylex(void);
 void yyerror(const char *s);
-
+extern FILE *yyin;
 // Variável global para a raiz da AST
 NoAST *raiz_ast = NULL;
 %}
@@ -114,7 +114,10 @@ NoAST *raiz_ast = NULL;
 %type <no> definicao_funcao
 %type <no> declaracao_funcao
 %type <no> entrada_dados
+%type <no> entrada_dados_parametros
 %type <no> saida_dados
+%type <no> saida_dados_parametro
+%type <no> saida_dados_opcoes
 %type <no> return
 %type <no> declaracao_namespace
 %type <no> chamada_biblioteca
@@ -158,6 +161,8 @@ programa_declaracao:
     | condicional_if
     | return
     | expressao_completa
+    | entrada_dados
+    | saida_dados
 ;
 
 expressao_completa:
@@ -350,32 +355,32 @@ entrada_dados:
     TOKEN_CIN entrada_dados_parametros TOKEN_SEMICOLON
     {
         printf("Entrada de dados reconhecida\n");
-        $$ = NULL; // Retornar NULL para nós não implementados
+        $$ = criarNoEntrada($2);
     }
 ;
 
 entrada_dados_parametros:
-    TOKEN_SHIFT_R TOKEN_ID
-    | entrada_dados_parametros TOKEN_SHIFT_R TOKEN_ID
+    TOKEN_SHIFT_R TOKEN_ID { $$ = criarNoId($2, TIPO_INT); }
+    | entrada_dados_parametros TOKEN_SHIFT_R TOKEN_ID { $$ = criarNoOp(',', $1, criarNoId($3, TIPO_INT)); }
 ;
 
 saida_dados:
     TOKEN_COUT saida_dados_parametro TOKEN_SEMICOLON
     {
         printf("Saída de dados reconhecida\n");
-        $$ = NULL; // Retornar NULL para nós não implementados
+        $$ = criarNoSaida($2);
     }
 ;
 
 saida_dados_parametro:
-    TOKEN_SHIFT_L saida_dados_opcoes
-    | saida_dados_parametro TOKEN_SHIFT_L saida_dados_opcoes
+    TOKEN_SHIFT_L saida_dados_opcoes { $$ = $2; }
+    | saida_dados_parametro TOKEN_SHIFT_L saida_dados_opcoes { $$ = criarNoOp(',', $1, $3); }
 ;
 
 saida_dados_opcoes:
-    TOKEN_ID 
-    | TOKEN_STRING_LITERAL 
-    | TOKEN_ENDL 
+    TOKEN_ID { $$ = criarNoId($1, TIPO_INT); }
+    | TOKEN_STRING_LITERAL { /* TODO: Suporte a string */ $$ = NULL; }
+    | TOKEN_ENDL { $$ = NULL; }
 ;
 
 declaracao_variavel:
@@ -448,20 +453,26 @@ void yyerror(const char *s) {
 }
 
 int main(int argc, char **argv) {
+    printf("DEBUG: main do parser iniciado\n");
+    if (argc > 1) {
+        FILE *f = fopen(argv[1], "r");
+        if (!f) {
+            perror("Erro ao abrir arquivo");
+            return 1;
+        }
+        yyin = f;
+    }
     int resultado = yyparse();
-    
+    printf("DEBUG: yyparse retornou %d\n", resultado);
     if (resultado == 0 && raiz_ast) {
         printf("AST gerada com sucesso!\n");
         printf("AST completa:\n");
         imprimirAST(raiz_ast);
         printf("\n\n");
-        
         // Executar o programa
         executarPrograma(raiz_ast);
-        
         // Liberar memória
         liberarAST(raiz_ast);
     }
-    
     return resultado;
 }

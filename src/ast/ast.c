@@ -280,6 +280,8 @@ void liberarAST(NoAST *no) {
 
 // Função principal de interpretação
 Valor interpretarAST(NoAST *no) {
+    printf("DEBUG: interpretarAST chamada com operador: %c\n", no ? no->operador : 'N');
+    
     if (!no) {
         Valor vazio = {0};
         return vazio;
@@ -511,6 +513,45 @@ Valor interpretarAST(NoAST *no) {
             interpretarAST(no->direita);
             break;
             
+        case 'O': // cout
+            {
+                NoAST *param = no->esquerda;
+                while (param) {
+                    if (param->operador == ',') {
+                        interpretarAST(param->esquerda);
+                        param = param->direita;
+                    } else {
+                        Valor v = interpretarAST(param);
+                        printf("%d ", v.v_int); // Suporte inicial só para int
+                        break;
+                    }
+                }
+                printf("\n");
+            }
+            break;
+        case 'C': // cin
+            {
+                NoAST *param = no->esquerda;
+                while (param) {
+                    if (param->operador == ',') {
+                        interpretarAST(param->esquerda);
+                        param = param->direita;
+                    } else {
+                        if (strlen(param->nome) > 0) {
+                            Simbolo* simbolo = buscarSimbolo(tabela_global, param->nome);
+                            if (simbolo) {
+                                int val;
+                                printf("Digite o valor para %s: ", param->nome);
+                                scanf("%d", &val);
+                                simbolo->valor.v_int = val;
+                                simbolo->inicializada = 1;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            break;
         default:
             printf("[AVISO] Operador não implementado ou nó ignorado: %c\n", no->operador);
             // Não faz nada, apenas ignora o nó
@@ -521,8 +562,13 @@ Valor interpretarAST(NoAST *no) {
 }
 
 void executarPrograma(NoAST *raiz) {
-    if (!raiz) return;
+    printf("DEBUG: executarPrograma iniciada\n");
+    if (!raiz) {
+        printf("DEBUG: raiz é NULL\n");
+        return;
+    }
     
+    printf("DEBUG: criando tabela de símbolos\n");
     // Criar tabela de símbolos global
     tabela_global = criarTabelaSimbolos();
     if (!tabela_global) {
@@ -530,8 +576,11 @@ void executarPrograma(NoAST *raiz) {
         return;
     }
     
+    printf("DEBUG: tabela de símbolos criada com sucesso\n");
     printf("=== EXECUTANDO PROGRAMA ===\n");
+    printf("DEBUG: chamando interpretarAST\n");
     interpretarAST(raiz);
+    printf("DEBUG: interpretarAST retornou\n");
     printf("=== PROGRAMA FINALIZADO ===\n");
     
     // Imprimir estado final da tabela de símbolos
@@ -540,4 +589,24 @@ void executarPrograma(NoAST *raiz) {
     // Limpar tabela de símbolos
     destruirTabelaSimbolos(tabela_global);
     tabela_global = NULL;
+}
+
+NoAST *criarNoSaida(NoAST *param) {
+    NoAST *no = malloc(sizeof(NoAST));
+    if (!no) return NULL;
+    no->operador = 'O'; // O de Output
+    no->esquerda = param;
+    no->direita = NULL;
+    no->tipo = TIPO_VOID;
+    return no;
+}
+
+NoAST *criarNoEntrada(NoAST *param) {
+    NoAST *no = malloc(sizeof(NoAST));
+    if (!no) return NULL;
+    no->operador = 'C'; // C de Console input
+    no->esquerda = param;
+    no->direita = NULL;
+    no->tipo = TIPO_VOID;
+    return no;
 }

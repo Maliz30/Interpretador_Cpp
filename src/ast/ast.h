@@ -43,6 +43,8 @@ NoAST *criarNoDeclaracao(Tipo tipo, char *nome);
 NoAST *criarNoCondicional(NoAST *condicao, NoAST *bloco_se, NoAST *bloco_senao);
 NoAST *criarNoLoop(char tipo_loop, NoAST *condicao, NoAST *corpo);
 NoAST *criarNoFor(NoAST *inicializacao, NoAST *condicao, NoAST *incremento, NoAST *corpo);
+NoAST *criarNoSaida(NoAST *param);
+NoAST *criarNoEntrada(NoAST *param); // operador 'N' para entrada (cin)
 
 void imprimirAST(NoAST *no);
 void liberarAST(NoAST *no);
