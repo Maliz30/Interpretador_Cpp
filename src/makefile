@@ -1,5 +1,6 @@
 # Compilador e flags
 CC = gcc
+CFLAGS = -Wall -Wextra -std=c99
 FLEX = flex
 BISON = bison
 
@@ -34,35 +35,84 @@ $(LEXER): $(LEXER_DIR)/lexer.l
 
 # Compila tudo
 $(EXEC): $(PARSER_C) $(LEXER) $(AST) $(TABELA)
-	$(CC) $(PARSER_C) $(LEXER) $(AST) $(TABELA) -o $(EXEC)
+	$(CC) $(CFLAGS) $(PARSER_C) $(LEXER) $(AST) $(TABELA) -o $(EXEC)
 
 # Limpa arquivos gerados
 clean:
 	rm -f $(LEXER) $(PARSER_C) $(PARSER_H) $(EXEC)
+	rm -f *.o
+
+# Limpa tudo e recompila
+rebuild: clean all
 
 # Roda o executável manualmente
 run:
 	./$(EXEC)
 
-# Roda com um arquivo de teste
-run-hello:
-	./$(EXEC) < $(TEST_DIR)/hello.cpp
+# Testa todos os arquivos de teste
+test-all: test-simple test-io test-expressao test-math test-conditional test-loop test-hello test-entrada-saida
 
-run-conditional:
-	./$(EXEC) < $(TEST_DIR)/conditional.cpp
-
-run-loop:
-	./$(EXEC) < $(TEST_DIR)/loop.cpp
-
-run-math:
-	./$(EXEC) < $(TEST_DIR)/math.cpp
-
-run-entrada-saida:
-	./$(EXEC) < $(TEST_DIR)/entrada_saida.cpp
-
-run-teste_expressao:
-	./$(EXEC) < $(TEST_DIR)/teste_expressao.cpp
-
-# Teste simples
+# Testes individuais
 test-simple:
-	echo "int a = 5; int b = 3; int c = a + b;" | ./$(EXEC)
+	@echo "=== Testando simple.cpp ==="
+	./$(EXEC) $(TEST_DIR)/simple.cpp
+
+test-io:
+	@echo "=== Testando io_minimal.cpp ==="
+	echo -e "5\n8" | ./$(EXEC) $(TEST_DIR)/io_minimal.cpp
+
+test-expressao:
+	@echo "=== Testando teste_expressao.cpp ==="
+	./$(EXEC) $(TEST_DIR)/teste_expressao.cpp
+
+test-math:
+	@echo "=== Testando math.cpp ==="
+	./$(EXEC) $(TEST_DIR)/math.cpp
+
+test-conditional:
+	@echo "=== Testando conditional.cpp ==="
+	./$(EXEC) $(TEST_DIR)/conditional.cpp
+
+test-loop:
+	@echo "=== Testando loop.cpp ==="
+	./$(EXEC) $(TEST_DIR)/loop.cpp
+
+test-hello:
+	@echo "=== Testando hello.cpp ==="
+	./$(EXEC) $(TEST_DIR)/hello.cpp
+
+test-entrada-saida:
+	@echo "=== Testando entrada_saida.cpp ==="
+	./$(EXEC) $(TEST_DIR)/entrada_saida.cpp
+
+# Teste interativo
+test-interactive:
+	@echo "=== Teste Interativo ==="
+	@echo "Digite código C++ (Ctrl+D para finalizar):"
+	./$(EXEC)
+
+# Teste com entrada automática
+test-auto:
+	@echo "=== Teste Automático ==="
+	echo "int a = 10; int b = 5; int c = a + b; cout << c;" | ./$(EXEC)
+
+
+# Ajuda
+help:
+	@echo "Makefile do Interpretador C++"
+	@echo ""
+	@echo "Targets disponíveis:"
+	@echo "  all          - Compila o interpretador"
+	@echo "  clean        - Remove arquivos gerados"
+	@echo "  rebuild      - Limpa e recompila"
+	@echo "  run          - Executa o interpretador"
+	@echo "  test-all     - Testa todos os arquivos de teste"
+	@echo "  test-simple  - Testa simple.cpp"
+	@echo "  test-io      - Testa entrada/saída"
+	@echo "  test-expressao - Testa expressões"
+	@echo "  test-interactive - Modo interativo"
+	@echo "  test-auto    - Teste automático"
+	@echo "  help         - Mostra esta ajuda"
+
+# Regra padrão
+.PHONY: all clean rebuild run test-all test-simple test-io test-expressao test-math test-conditional test-loop test-hello test-entrada-saida test-interactive test-auto help
