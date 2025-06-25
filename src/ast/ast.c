@@ -60,32 +60,34 @@ NoAST *criarNoId(char *nome, Tipo tipo) {
 }
 
 void imprimirAST(NoAST *no) {
-    if (!no) return;
-    
+    if (!no) {
+        printf("NULL");
+        return;
+    }
     switch(no->operador) {
         case 'D': 
             printf("DECL(%s)", no->nome);
             break;
         case 'I': 
             printf("IF(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             printf(", ");
             if (no->direita && no->direita->operador == 'B') {
                 printf("THEN(");
-                imprimirAST(no->direita->esquerda);
+                if (no->direita->esquerda) imprimirAST(no->direita->esquerda);
                 printf("), ELSE(");
-                imprimirAST(no->direita->direita);
+                if (no->direita->direita) imprimirAST(no->direita->direita);
                 printf(")");
             } else {
-                imprimirAST(no->direita);
+                if (no->direita) imprimirAST(no->direita);
             }
             printf(")");
             break;
         case 'W': 
             printf("WHILE(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             printf(", ");
-            imprimirAST(no->direita);
+            if (no->direita) imprimirAST(no->direita);
             printf(")");
             break;
         case 'F': 
@@ -93,57 +95,57 @@ void imprimirAST(NoAST *no) {
             if (no->esquerda && no->esquerda->operador == 'C' && 
                 no->direita && no->direita->operador == 'R') {
                 printf("INIT(");
-                imprimirAST(no->esquerda->esquerda);
+                if (no->esquerda->esquerda) imprimirAST(no->esquerda->esquerda);
                 printf("), COND(");
-                imprimirAST(no->esquerda->direita);
+                if (no->esquerda->direita) imprimirAST(no->esquerda->direita);
                 printf("), INCR(");
-                imprimirAST(no->direita->esquerda);
+                if (no->direita->esquerda) imprimirAST(no->direita->esquerda);
                 printf("), BODY(");
-                imprimirAST(no->direita->direita);
+                if (no->direita->direita) imprimirAST(no->direita->direita);
                 printf(")");
             } else {
-                imprimirAST(no->esquerda);
+                if (no->esquerda) imprimirAST(no->esquerda);
                 printf(", ");
-                imprimirAST(no->direita);
+                if (no->direita) imprimirAST(no->direita);
             }
             printf(")");
             break;
         case 'P': 
             printf("(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             printf("++)");
             break;
         case 'M': 
             printf("(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             printf("--)");
             break;
         case 'C': 
             printf("INIT_COND(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             printf(", ");
-            imprimirAST(no->direita);
+            if (no->direita) imprimirAST(no->direita);
             printf(")");
             break;
         case 'R': // Remainder (incremento+corpo do for)
             printf("INCR_BODY(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             printf(", ");
-            imprimirAST(no->direita);
+            if (no->direita) imprimirAST(no->direita);
             printf(")");
             break;
         case ',': 
             printf("LIST(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             printf(", ");
-            imprimirAST(no->direita);
+            if (no->direita) imprimirAST(no->direita);
             printf(")");
             break;
         case ';': 
             printf("SEQ(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             printf(", ");
-            imprimirAST(no->direita);
+            if (no->direita) imprimirAST(no->direita);
             printf(")");
             break;
         case '<': 
@@ -153,7 +155,7 @@ void imprimirAST(NoAST *no) {
         case 'E': 
         case 'N': 
             printf("(");
-            imprimirAST(no->esquerda);
+            if (no->esquerda) imprimirAST(no->esquerda);
             switch(no->operador) {
                 case '<': printf(" < "); break;
                 case '>': printf(" > "); break;
@@ -162,7 +164,7 @@ void imprimirAST(NoAST *no) {
                 case 'E': printf(" == "); break;
                 case 'N': printf(" != "); break;
             }
-            imprimirAST(no->direita);
+            if (no->direita) imprimirAST(no->direita);
             printf(")");
             break;
         case 0: 
@@ -173,11 +175,8 @@ void imprimirAST(NoAST *no) {
             }
             break;
         default: 
-            printf("(");
-            imprimirAST(no->esquerda);
-            printf(" %c ", no->operador);
-            imprimirAST(no->direita);
-            printf(")");
+            printf("[AVISO] Operador não implementado ou nó ignorado: %c\n", no->operador);
+            // Não faz nada, apenas ignora o nó
             break;
     }
 }
@@ -513,7 +512,8 @@ Valor interpretarAST(NoAST *no) {
             break;
             
         default:
-            printf("Operador não implementado: %c\n", no->operador);
+            printf("[AVISO] Operador não implementado ou nó ignorado: %c\n", no->operador);
+            // Não faz nada, apenas ignora o nó
             break;
     }
     

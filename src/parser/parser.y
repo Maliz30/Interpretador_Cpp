@@ -111,6 +111,13 @@ NoAST *raiz_ast = NULL;
 %type <no> programa_declaracao
 %type <no> expressao_completa
 %type <no> expressao
+%type <no> definicao_funcao
+%type <no> declaracao_funcao
+%type <no> entrada_dados
+%type <no> saida_dados
+%type <no> return
+%type <no> declaracao_namespace
+%type <no> chamada_biblioteca
 
 %token TOKEN_ERROR
 
@@ -188,6 +195,7 @@ definicao_funcao:
     tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
     {
         printf("Definição de função reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -240,6 +248,7 @@ declaracao_funcao:
     tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_SEMICOLON
     {
         printf("Declaração de função reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -341,6 +350,7 @@ entrada_dados:
     TOKEN_CIN entrada_dados_parametros TOKEN_SEMICOLON
     {
         printf("Entrada de dados reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -353,6 +363,7 @@ saida_dados:
     TOKEN_COUT saida_dados_parametro TOKEN_SEMICOLON
     {
         printf("Saída de dados reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -410,6 +421,7 @@ return:
     TOKEN_RETURN TOKEN_NUMBER TOKEN_SEMICOLON
     {
         printf("Retorno de função reconhecido\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -417,6 +429,7 @@ declaracao_namespace:
     TOKEN_USING TOKEN_NAMESPACE TOKEN_ID TOKEN_SEMICOLON
     {
         printf("Declaração de namespace reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -424,6 +437,7 @@ chamada_biblioteca:
     TOKEN_HASH TOKEN_INCLUDE TOKEN_LT TOKEN_ID TOKEN_GT
     {
         printf("Chamada de biblioteca reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
