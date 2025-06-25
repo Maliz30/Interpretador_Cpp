@@ -71,7 +71,11 @@
 [0-9]+\.[0-9]+                      { yylval.v_float = atof(yytext); return TOKEN_FLOAT; }
 "true"|"false"                      { return TOKEN_BOOL_LITERAL; }
 
-[a-zA-Z_][a-zA-Z0-9_]*              { yylval.v_string = strdup(yytext); return TOKEN_ID; }
+[a-zA-Z_][a-zA-Z0-9_]*              { 
+    yylval.v_string = malloc(strlen(yytext) + 1);
+    strcpy(yylval.v_string, yytext);
+    return TOKEN_ID; 
+}
 \"([^\\\"]|\\.)*\"                  { return TOKEN_STRING_LITERAL; }
 
 "//".*                              { /* ignora comentários de linha */ }
