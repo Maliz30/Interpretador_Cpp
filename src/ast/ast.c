@@ -148,6 +148,48 @@ void imprimirAST(NoAST *no) {
             if (no->direita) imprimirAST(no->direita);
             printf(")");
             break;
+        case '=': 
+            printf("ASSIGN(");
+            if (no->esquerda) imprimirAST(no->esquerda);
+            printf(", ");
+            if (no->direita) imprimirAST(no->direita);
+            printf(")");
+            break;
+        case '+': 
+            printf("ADD(");
+            if (no->esquerda) imprimirAST(no->esquerda);
+            printf(", ");
+            if (no->direita) imprimirAST(no->direita);
+            printf(")");
+            break;
+        case '-': 
+            printf("SUB(");
+            if (no->esquerda) imprimirAST(no->esquerda);
+            printf(", ");
+            if (no->direita) imprimirAST(no->direita);
+            printf(")");
+            break;
+        case '*': 
+            printf("MUL(");
+            if (no->esquerda) imprimirAST(no->esquerda);
+            printf(", ");
+            if (no->direita) imprimirAST(no->direita);
+            printf(")");
+            break;
+        case '/': 
+            printf("DIV(");
+            if (no->esquerda) imprimirAST(no->esquerda);
+            printf(", ");
+            if (no->direita) imprimirAST(no->direita);
+            printf(")");
+            break;
+        case '%': 
+            printf("MOD(");
+            if (no->esquerda) imprimirAST(no->esquerda);
+            printf(", ");
+            if (no->direita) imprimirAST(no->direita);
+            printf(")");
+            break;
         case 'O': // cout
             printf("COUT(");
             if (no->esquerda) imprimirAST(no->esquerda);
@@ -290,8 +332,6 @@ void liberarAST(NoAST *no) {
 
 // Função principal de interpretação
 Valor interpretarAST(NoAST *no) {
-    printf("DEBUG: interpretarAST chamada com operador: %c\n", no ? no->operador : 'N');
-    
     if (!no) {
         Valor vazio = {0};
         return vazio;
@@ -572,13 +612,8 @@ Valor interpretarAST(NoAST *no) {
 }
 
 void executarPrograma(NoAST *raiz) {
-    printf("DEBUG: executarPrograma iniciada\n");
-    if (!raiz) {
-        printf("DEBUG: raiz é NULL\n");
-        return;
-    }
+    if (!raiz) return;
     
-    printf("DEBUG: criando tabela de símbolos\n");
     // Criar tabela de símbolos global
     tabela_global = criarTabelaSimbolos();
     if (!tabela_global) {
@@ -586,11 +621,8 @@ void executarPrograma(NoAST *raiz) {
         return;
     }
     
-    printf("DEBUG: tabela de símbolos criada com sucesso\n");
     printf("=== EXECUTANDO PROGRAMA ===\n");
-    printf("DEBUG: chamando interpretarAST\n");
     interpretarAST(raiz);
-    printf("DEBUG: interpretarAST retornou\n");
     printf("=== PROGRAMA FINALIZADO ===\n");
     
     // Imprimir estado final da tabela de símbolos
