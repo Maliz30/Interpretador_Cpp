@@ -67,17 +67,21 @@
 
 
 /* First part of user prologue.  */
-#line 1 "parser/parser.y"
+#line 5 "parser/parser.y"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "ast/ast.h"
+#include "../analise_semantica/semantica.h"
+
 int yylex(void);
 void yyerror(const char *s);
 
-#line 81 "parser/parser.tab.c"
+// Variável global para a tabela de símbolos
+TabelaSimbolos tabelaGlobal;
+
+#line 85 "parser/parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -582,14 +586,14 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    99,    99,   100,   105,   106,   107,   108,   109,   113,
-     119,   121,   125,   126,   127,   128,   129,   134,   135,   136,
-     137,   141,   147,   149,   153,   154,   158,   165,   172,   173,
-     174,   175,   179,   180,   187,   188,   189,   200,   201,   202,
-     203,   204,   215,   216,   220,   221,   222,   223,   224,   225,
-     229,   236,   237,   241,   248,   249,   253,   254,   255,   275,
-     279,   280,   281,   282,   286,   287,   288,   289,   290,   291,
-     292,   293,   294,   295,   296,   297,   301,   308,   315
+       0,   106,   106,   111,   119,   120,   121,   122,   123,   127,
+     133,   135,   139,   140,   141,   142,   143,   144,   145,   146,
+     147,   151,   157,   159,   163,   164,   168,   175,   182,   183,
+     184,   185,   189,   190,   197,   214,   231,   251,   252,   253,
+     254,   255,   258,   259,   263,   264,   265,   266,   267,   268,
+     272,   279,   280,   284,   291,   292,   296,   297,   298,   302,
+     311,   312,   313,   314,   318,   319,   320,   321,   322,   323,
+     324,   325,   326,   327,   328,   329,   333,   340,   347
 };
 #endif
 
@@ -1279,146 +1283,209 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 9: /* definicao_funcao: tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE  */
-#line 114 "parser/parser.y"
+  case 2: /* programa: programa_declaracao  */
+#line 107 "parser/parser.y"
     {
-        printf("Definição de função reconhecida\n");
+        printf("\n=== INICIANDO ANALISE SEMANTICA ===\n");
+        inicializarTabela(&tabelaGlobal);
     }
-#line 1288 "parser/parser.tab.c"
+#line 1293 "parser/parser.tab.c"
     break;
 
-  case 16: /* operacoes_possiveis: operacao_matematica_atribuicao_valor  */
-#line 129 "parser/parser.y"
-                                           {
-        printf("AST da operação:\n");
-        imprimirAST((yyvsp[0].no));
-        printf("\n");
+  case 3: /* programa: programa programa_declaracao  */
+#line 112 "parser/parser.y"
+    {
+        // Finaliza a analise semantica quando o programa terminar
+        finalizarAnaliseSemantica(&tabelaGlobal);
     }
-#line 1298 "parser/parser.tab.c"
+#line 1302 "parser/parser.tab.c"
+    break;
+
+  case 9: /* definicao_funcao: tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE  */
+#line 128 "parser/parser.y"
+    {
+        printf("Definicao de funcao reconhecida\n");
+    }
+#line 1310 "parser/parser.tab.c"
     break;
 
   case 21: /* declaracao_funcao: tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_SEMICOLON  */
-#line 142 "parser/parser.y"
+#line 152 "parser/parser.y"
     {
-        printf("Declaração de função reconhecida\n");
+        printf("Declaracao de funcao reconhecida\n");
     }
-#line 1306 "parser/parser.tab.c"
+#line 1318 "parser/parser.tab.c"
     break;
 
   case 26: /* while_loop: TOKEN_WHILE TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE  */
-#line 159 "parser/parser.y"
+#line 169 "parser/parser.y"
     {
         printf("Loop while reconhecido\n");
     }
-#line 1314 "parser/parser.tab.c"
+#line 1326 "parser/parser.tab.c"
     break;
 
   case 27: /* for_loop: TOKEN_FOR TOKEN_LPAREN declaracao_variavel operacao_relacional TOKEN_SEMICOLON incremento TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE  */
-#line 166 "parser/parser.y"
+#line 176 "parser/parser.y"
     {
         printf("Loop for reconhecido\n");
     }
-#line 1322 "parser/parser.tab.c"
+#line 1334 "parser/parser.tab.c"
     break;
 
   case 33: /* condicional_if: TOKEN_IF TOKEN_LPAREN operacao_relacional TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE TOKEN_ELSE TOKEN_LBRACE bloco_escopo TOKEN_RBRACE  */
-#line 181 "parser/parser.y"
+#line 191 "parser/parser.y"
     {
         printf("if reconhecido\n");
     }
-#line 1330 "parser/parser.tab.c"
-    break;
-
-  case 34: /* operacao_matematica_atribuicao_valor: TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON  */
-#line 187 "parser/parser.y"
-                                                                                  { (yyval.no) = criarNoOp('=', criarNoId((yyvsp[-3].v_string), TIPO_INT), criarNoNum((yyvsp[-1].v_int)));}
-#line 1336 "parser/parser.tab.c"
-    break;
-
-  case 35: /* operacao_matematica_atribuicao_valor: TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON  */
-#line 188 "parser/parser.y"
-                                                                                  { (yyval.no) = criarNoOp('=', criarNoId((yyvsp[-3].v_string), TIPO_INT), criarNoId((yyvsp[-1].v_string), TIPO_INT));}
 #line 1342 "parser/parser.tab.c"
     break;
 
+  case 34: /* operacao_matematica_atribuicao_valor: TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON  */
+#line 198 "parser/parser.y"
+    { 
+        (yyval.no) = criarNoOp('=', criarNoId((yyvsp[-3].v_string), TIPO_INT), criarNoNum((yyvsp[-1].v_int)));
+        printf("AST da operacao:\n");
+        imprimirAST((yyval.no));
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST((yyval.no), &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo((yyval.no)->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
+#line 1363 "parser/parser.tab.c"
+    break;
+
+  case 35: /* operacao_matematica_atribuicao_valor: TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON  */
+#line 215 "parser/parser.y"
+    { 
+        (yyval.no) = criarNoOp('=', criarNoId((yyvsp[-3].v_string), TIPO_INT), criarNoId((yyvsp[-1].v_string), TIPO_INT));
+        printf("AST da operacao:\n");
+        imprimirAST((yyval.no));
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST((yyval.no), &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo((yyval.no)->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
+#line 1384 "parser/parser.tab.c"
+    break;
+
   case 36: /* operacao_matematica_atribuicao_valor: TOKEN_ID TOKEN_ASSIGN operacao_matematica TOKEN_SEMICOLON  */
-#line 189 "parser/parser.y"
-                                                                                  { (yyval.no) = criarNoOp('=', criarNoId((yyvsp[-3].v_string), TIPO_INT), (yyvsp[-1].no)); }
-#line 1348 "parser/parser.tab.c"
+#line 232 "parser/parser.y"
+    { 
+        (yyval.no) = criarNoOp('=', criarNoId((yyvsp[-3].v_string), TIPO_INT), (yyvsp[-1].no));
+        printf("AST da operacao:\n");
+        imprimirAST((yyval.no));
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST((yyval.no), &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo((yyval.no)->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
+#line 1405 "parser/parser.tab.c"
     break;
 
   case 37: /* operacao_matematica: TOKEN_ID TOKEN_PLUS TOKEN_ID  */
-#line 200 "parser/parser.y"
+#line 251 "parser/parser.y"
                                                           { (yyval.no) = criarNoOp('+', criarNoId((yyvsp[-2].v_string), TIPO_INT), criarNoId((yyvsp[0].v_string), TIPO_INT)); }
-#line 1354 "parser/parser.tab.c"
+#line 1411 "parser/parser.tab.c"
     break;
 
   case 38: /* operacao_matematica: TOKEN_ID TOKEN_MINUS TOKEN_ID  */
-#line 201 "parser/parser.y"
+#line 252 "parser/parser.y"
                                                           { (yyval.no) = criarNoOp('-', criarNoId((yyvsp[-2].v_string), TIPO_INT), criarNoId((yyvsp[0].v_string), TIPO_INT)); }
-#line 1360 "parser/parser.tab.c"
+#line 1417 "parser/parser.tab.c"
     break;
 
   case 39: /* operacao_matematica: TOKEN_ID TOKEN_MUL TOKEN_ID  */
-#line 202 "parser/parser.y"
+#line 253 "parser/parser.y"
                                                           { (yyval.no) = criarNoOp('*', criarNoId((yyvsp[-2].v_string), TIPO_INT), criarNoId((yyvsp[0].v_string), TIPO_INT)); }
-#line 1366 "parser/parser.tab.c"
+#line 1423 "parser/parser.tab.c"
     break;
 
   case 40: /* operacao_matematica: TOKEN_ID TOKEN_DIV TOKEN_ID  */
-#line 203 "parser/parser.y"
+#line 254 "parser/parser.y"
                                                           { (yyval.no) = criarNoOp('/', criarNoId((yyvsp[-2].v_string), TIPO_INT), criarNoId((yyvsp[0].v_string), TIPO_INT)); }
-#line 1372 "parser/parser.tab.c"
+#line 1429 "parser/parser.tab.c"
     break;
 
   case 41: /* operacao_matematica: TOKEN_ID TOKEN_MOD TOKEN_ID  */
-#line 204 "parser/parser.y"
+#line 255 "parser/parser.y"
                                                           { (yyval.no) = criarNoOp('%', criarNoId((yyvsp[-2].v_string), TIPO_INT), criarNoId((yyvsp[0].v_string), TIPO_INT)); }
-#line 1378 "parser/parser.tab.c"
+#line 1435 "parser/parser.tab.c"
     break;
 
   case 50: /* entrada_dados: TOKEN_CIN entrada_dados_parametros TOKEN_SEMICOLON  */
-#line 230 "parser/parser.y"
+#line 273 "parser/parser.y"
     {
         printf("Entrada de dados reconhecida\n");
     }
-#line 1386 "parser/parser.tab.c"
+#line 1443 "parser/parser.tab.c"
     break;
 
   case 53: /* saida_dados: TOKEN_COUT saida_dados_parametro TOKEN_SEMICOLON  */
-#line 242 "parser/parser.y"
+#line 285 "parser/parser.y"
     {
-        printf("Saída de dados reconhecida\n");
+        printf("Saida de dados reconhecida\n");
     }
-#line 1394 "parser/parser.tab.c"
+#line 1451 "parser/parser.tab.c"
+    break;
+
+  case 59: /* declaracao_variavel: tipagem variavel TOKEN_SEMICOLON  */
+#line 303 "parser/parser.y"
+    {
+        printf("Declaracao de variavel reconhecida\n");
+        // Aqui seria necessario capturar o tipo e nome da variavel
+        // Por simplicidade, vamos assumir que e int por padrao
+    }
+#line 1461 "parser/parser.tab.c"
     break;
 
   case 76: /* return: TOKEN_RETURN TOKEN_NUMBER TOKEN_SEMICOLON  */
-#line 302 "parser/parser.y"
+#line 334 "parser/parser.y"
     {
-        printf("Retorno de função reconhecido\n");
+        printf("Retorno de funcao reconhecido\n");
     }
-#line 1402 "parser/parser.tab.c"
+#line 1469 "parser/parser.tab.c"
     break;
 
   case 77: /* declaracao_namespace: TOKEN_USING TOKEN_NAMESPACE TOKEN_ID TOKEN_SEMICOLON  */
-#line 309 "parser/parser.y"
+#line 341 "parser/parser.y"
     {
-        printf("Declaração de namespace reconhecida\n");
+        printf("Declaracao de namespace reconhecida\n");
     }
-#line 1410 "parser/parser.tab.c"
+#line 1477 "parser/parser.tab.c"
     break;
 
   case 78: /* chamada_biblioteca: TOKEN_HASH TOKEN_INCLUDE TOKEN_LT TOKEN_ID TOKEN_GT  */
-#line 316 "parser/parser.y"
+#line 348 "parser/parser.y"
     {
         printf("Chamada de biblioteca reconhecida\n");
     }
-#line 1418 "parser/parser.tab.c"
+#line 1485 "parser/parser.tab.c"
     break;
 
 
-#line 1422 "parser/parser.tab.c"
+#line 1489 "parser/parser.tab.c"
 
       default: break;
     }
@@ -1611,9 +1678,9 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 321 "parser/parser.y"
+#line 353 "parser/parser.y"
 
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Erro sintático: %s\n", s);
-}
+    fprintf(stderr, "Erro sintatico: %s\n", s);
+} 

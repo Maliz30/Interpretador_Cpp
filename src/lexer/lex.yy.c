@@ -548,10 +548,10 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "lexer/lexer.l"
 #line 2 "lexer/lexer.l"
-#include "ast/ast.h"
-#include "parser/parser.tab.h"
+#include "../parser/parser.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #line 556 "lexer/lex.yy.c"
 /* Definições de padrões de token e ações */
 #line 558 "lexer/lex.yy.c"
@@ -1084,7 +1084,7 @@ YY_RULE_SETUP
 case 51:
 YY_RULE_SETUP
 #line 70 "lexer/lexer.l"
-{ return TOKEN_NUMBER; }
+{ yylval.v_int = atoi(yytext); return TOKEN_NUMBER; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
@@ -1094,7 +1094,7 @@ YY_RULE_SETUP
 case 53:
 YY_RULE_SETUP
 #line 73 "lexer/lexer.l"
-{ return TOKEN_ID; }
+{ yylval.v_string = strdup(yytext); return TOKEN_ID; }
 	YY_BREAK
 case 54:
 /* rule 54 can match eol */
