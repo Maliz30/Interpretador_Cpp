@@ -11,40 +11,6 @@ void inicializarTabela(TabelaSimbolos *tabela) {
     }
 }
 
-// Insere um símbolo na tabela
-int inserirSimbolo(TabelaSimbolos *tabela, const char *nome, Tipo tipo) {
-    // Verifica se já existe
-    for (int i = 0; i < tabela->tamanho; i++) {
-        if (strcmp(tabela->simbolos[i].nome, nome) == 0) {
-            reportarErro("Variavel ja declarada", nome);
-            return 0; // Falha
-        }
-    }
-    
-    // Insere novo símbolo
-    if (tabela->tamanho < 100) {
-        strcpy(tabela->simbolos[tabela->tamanho].nome, nome);
-        tabela->simbolos[tabela->tamanho].tipo = tipo;
-        tabela->simbolos[tabela->tamanho].declarada = 1;
-        tabela->simbolos[tabela->tamanho].inicializada = 0;
-        tabela->tamanho++;
-        return 1; // Sucesso
-    }
-    
-    reportarErro("Tabela de simbolos cheia", "");
-    return 0; // Falha
-}
-
-// Busca um símbolo na tabela
-Simbolo* buscarSimbolo(TabelaSimbolos *tabela, const char *nome) {
-    for (int i = 0; i < tabela->tamanho; i++) {
-        if (strcmp(tabela->simbolos[i].nome, nome) == 0) {
-            return &tabela->simbolos[i];
-        }
-    }
-    return NULL; // Não encontrado
-}
-
 // Marca uma variável como inicializada
 void marcarInicializada(TabelaSimbolos *tabela, const char *nome) {
     Simbolo *simbolo = buscarSimbolo(tabela, nome);
@@ -261,4 +227,4 @@ void finalizarAnaliseSemantica(TabelaSimbolos *tabela) {
     imprimirTabela(tabela);
     printf("Analise semantica concluida!\n");
     printf("===================================\n");
-} 
+}

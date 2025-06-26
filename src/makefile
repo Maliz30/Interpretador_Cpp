@@ -73,7 +73,7 @@ test-math:
 
 test-semantica:
 	@echo "=== Testando semantica.cpp ==="
-	./$(EXEC) $(TEST_DIR)/erro-semantico.cpp
+	./$(EXEC) $(TEST_DIR)/erro_semantico.cpp
 
 test-conditional:
 	@echo "=== Testando conditional.cpp ==="

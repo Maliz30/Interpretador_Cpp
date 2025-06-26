@@ -53,4 +53,4 @@ int tiposCompativeis(Tipo t1, Tipo t2);
 Valor interpretarAST(NoAST *no);
 void executarPrograma(NoAST *raiz);
 
-#endif 
+#endif

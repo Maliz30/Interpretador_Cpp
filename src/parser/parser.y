@@ -9,6 +9,11 @@
 #include <stdbool.h>
 #include "../analise_semantica/semantica.h"
 #include "../ast/ast.h"
+extern FILE *yyin;
+// Variável global para a AST
+NoAST *raiz_ast = NULL;
+
+TabelaSimbolos tabelaGlobal;
 
 int yylex(void);
 void yyerror(const char *s);
@@ -136,16 +141,6 @@ programa:
     lista_comandos
     {
         raiz_ast = $1;
-    }
-    programa_declaracao
-    {
-        printf("\n=== INICIANDO ANALISE SEMANTICA ===\n");
-        inicializarTabela(&tabelaGlobal);
-    }
-    | programa programa_declaracao
-    {
-        // Finaliza a analise semantica quando o programa terminar
-        finalizarAnaliseSemantica(&tabelaGlobal);
     }
 ;
 
