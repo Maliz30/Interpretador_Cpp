@@ -1,12 +1,12 @@
 # Project information
-site_name: "Interpretador: C++ Python"
+site_name: "Interpretador: C++"
 site_author: Grupo 7
 site_description: >-
   Documentação do projeto de desenvolvimento de um Interpretador de C++ para Python, desenvolvido ao longo da disciplina de Compiladores 1 (2025/1) na Universidade de Brasília.
 
 # Repository
 repo_url: https://github.com/Maliz30/Interpretador_Cpp
-repo_name: Interpretador_Cpp-Py
+repo_name: Interpretador_Cpp
 
 # Configuration
 docs_dir: docs
