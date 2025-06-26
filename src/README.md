@@ -5,9 +5,11 @@
 Este projeto implementa um **interpretador C++** completo que vai além de um simples parser. Ele é capaz de:
 - Analisar sintaxe C++ básica
 - Construir uma Árvore Sintática Abstrata (AST)
-- Executar código C++ em tempo real
+- **Executar código C++ em tempo real**
 - Gerenciar variáveis e escopo
 - Realizar operações matemáticas e lógicas
+- **Suportar entrada e saída (cin/cout)**
+- **Interpretar estruturas de controle (if, while, for)**
 
 ## Pré-requisitos
 
@@ -39,13 +41,15 @@ src/
 │   ├── tabela.h        # Definições da tabela
 │   └── tabela.c        # Implementação da tabela
 ├── codigos_teste/      # Arquivos de teste
-│   ├── simple.cpp      # Teste básico
-│   ├── hello.cpp       # Hello World
-│   ├── math.cpp        # Operações matemáticas
-│   ├── conditional.cpp # Estruturas condicionais
-│   ├── loop.cpp        # Loops
-│   └── entrada_saida.cpp # Entrada/saída
-├── makefile            # Sistema de build
+│   ├── simple.cpp      # Teste básico com operações matemáticas
+│   ├── io_minimal.cpp  # Teste de entrada/saída
+│   ├── teste_expressao.cpp # Teste de expressões
+│   ├── hello.cpp       # Hello World (sintaxe complexa)
+│   ├── math.cpp        # Operações matemáticas (sintaxe complexa)
+│   ├── conditional.cpp # Estruturas condicionais (sintaxe complexa)
+│   ├── loop.cpp        # Loops (sintaxe complexa)
+│   └── entrada_saida.cpp # Entrada/saída (sintaxe complexa)
+├── makefile            # Sistema de build avançado
 └── interpretador       # Executável final
 ```
 
@@ -56,6 +60,8 @@ src/
 cd src/
 make clean    # Limpa arquivos gerados
 make          # Compila o interpretador
+# ou
+make rebuild  # Limpa e recompila tudo
 ```
 
 ### Compilação Manual
@@ -63,31 +69,31 @@ make          # Compila o interpretador
 cd src/
 bison -d -o parser/parser.tab.c parser/parser.y
 flex -o lexer/lex.yy.c lexer/lexer.l
-gcc parser/parser.tab.c lexer/lex.yy.c ast/ast.c tabela_simbolos/tabela.c -o interpretador
+gcc -Wall -Wextra -std=c99 parser/parser.tab.c lexer/lex.yy.c ast/ast.c tabela_simbolos/tabela.c -o interpretador
 ```
 
 ### Execução
 ```bash
+# Execução com arquivo de teste
+./interpretador codigos_teste/simple.cpp
+./interpretador codigos_teste/io_minimal.cpp
+./interpretador codigos_teste/teste_expressao.cpp
+./interpretador codigos_teste/hello.cpp
+./interpretador codigos_teste/math.cpp
+./interpretador codigos_teste/conditional.cpp
+./interpretador codigos_teste/loop.cpp
+./interpretador codigos_teste/entrada_saida.cpp
+./interpretador codigos_teste/teste_simples.cpp
+./interpretador codigos_teste/teste_simples_io.cpp
+
 # Execução interativa
 ./interpretador
 
-# Execução com arquivo de teste
-./interpretador < codigos_teste/hello.cpp
-./interpretador < codigos_teste/math.cpp
-./interpretador < codigos_teste/conditional.cpp
-./interpretador < codigos_teste/loop.cpp
-./interpretador < codigos_teste/entrada_saida.cpp
-./interpretador < codigos_teste/simple.cpp
-./interpretador < codigos_teste/teste_simples.cpp
-./interpretador < codigos_teste/teste_expressao.cpp
+# Teste interativo
+make test-interactive
 
-# Testes específicos
-make run-hello
-make run-math
-make run-conditional
-make run-loop
-make run-entrada-saida
-make test-simple
+# Teste automático
+make test-auto
 ```
 
 ## Funcionalidades Implementadas
@@ -99,37 +105,39 @@ make test-simple
 - Operadores matemáticos e relacionais
 - Palavras-chave (int, float, if, while, for, etc.)
 - Comentários (// e /* */)
+- **Tokens de entrada/saída (cin, cout, >>, <<)**
 
 ### Análise Sintática
 - Gramática C++ básica
 - Construção de AST
 - Verificação de sintaxe
 - Tratamento de erros
+- **Suporte a múltiplos comandos no topo do programa**
 
 ### Árvore Sintática Abstrata (AST)
 - Representação em árvore do código
-- Nós para operações matemáticas
-- Nós para estruturas de controle
+- Nós para operações matemáticas (+, -, *, /, %)
+- Nós para estruturas de controle (if, while, for)
 - Nós para declarações e atribuições
+- **Nós para entrada/saída (cin, cout)**
+- **Nós para sequência de comandos**
 
 ### Tabela de Símbolos
 - Gerenciamento de variáveis
 - Controle de escopo
 - Verificação de declaração
 - Rastreamento de inicialização
+- **Suporte a múltiplos tipos de dados**
 
-### Interpretador
+### Interpretador Completo
 - **Execução real** de código C++
 - Operações matemáticas (+, -, *, /, %)
 - Operações relacionais (<, >, <=, >=, ==, !=)
 - Estruturas de controle (if, while, for)
 - Atribuições e incrementos/decrementos
+- **Entrada e saída (cin/cout)**
 - Tratamento de erros em tempo de execução
-
-### Gerenciamento de Memória
-- Liberação automática da AST
-- Limpeza da tabela de símbolos
-- Prevenção de vazamentos de memória
+- **Gerenciamento de memória automático**
 
 ## Exemplos de Uso
 
@@ -143,7 +151,51 @@ int e = a * b;
 int f = a / b;
 ```
 
-### Exemplo 2: Estruturas Condicionais
+**Saída:**
+```
+Variável 'a' declarada e inicializada com valor 10
+Variável 'b' declarada e inicializada com valor 5
+Variável 'c' declarada e inicializada com valor 15
+Variável 'd' declarada e inicializada com valor 5
+Variável 'e' declarada e inicializada com valor 50
+Variável 'f' declarada e inicializada com valor 2
+```
+
+### Exemplo 2: Entrada e Saída
+```cpp
+int a;
+int b;
+cin >> a;
+cin >> b;
+cout << a;
+cout << b;
+```
+
+**Execução:**
+```
+Digite o valor para a: 5
+Digite o valor para b: 8
+5 
+8 
+```
+
+### Exemplo 3: Expressões Complexas
+```cpp
+int a = 10;
+int b = 5;
+a = 15;
+b = a + 5;
+```
+
+**Saída:**
+```
+Variável 'a' declarada e inicializada com valor 10
+Variável 'b' declarada e inicializada com valor 5
+Variável 'a' atualizada com valor 15
+Variável 'b' atualizada com valor 20
+```
+
+### Exemplo 4: Estruturas Condicionais
 ```cpp
 int x = 15;
 if (x > 10) {
@@ -151,7 +203,7 @@ if (x > 10) {
 }
 ```
 
-### Exemplo 3: Loops
+### Exemplo 5: Loops
 ```cpp
 int i = 0;
 while (i < 5) {
