@@ -1,18 +1,17 @@
 %code requires {
 #include "../ast/ast.h"
+#include "../analise_semantica/semantica.h"
 }
 %{
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "../analise_semantica/semantica.h"
 #include "../ast/ast.h"
 
 int yylex(void);
 void yyerror(const char *s);
-extern FILE *yyin;
-// Variável global para a raiz da AST
-NoAST *raiz_ast = NULL;
 %}
 
 // Forward declaration para o union
@@ -137,6 +136,16 @@ programa:
     lista_comandos
     {
         raiz_ast = $1;
+    }
+    programa_declaracao
+    {
+        printf("\n=== INICIANDO ANALISE SEMANTICA ===\n");
+        inicializarTabela(&tabelaGlobal);
+    }
+    | programa programa_declaracao
+    {
+        // Finaliza a analise semantica quando o programa terminar
+        finalizarAnaliseSemantica(&tabelaGlobal);
     }
 ;
 
@@ -306,9 +315,57 @@ condicional_if:
 ;
 
 operacao_matematica_atribuicao_valor:
-    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                            { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoNum($3));}
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                              { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT));}
-    | TOKEN_ID TOKEN_ASSIGN operacao_matematica TOKEN_SEMICOLON                   { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), $3); } 
+    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                            
+    { 
+        $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoNum($3));
+        printf("AST da operacao:\n");
+        imprimirAST($$);
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST($$, &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo($$->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                              
+    { 
+        $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT));
+        printf("AST da operacao:\n");
+        imprimirAST($$);
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST($$, &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo($$->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
+    | TOKEN_ID TOKEN_ASSIGN operacao_matematica TOKEN_SEMICOLON                   
+    { 
+        $$ = criarNoOp('=', criarNoId($1, TIPO_INT), $3);
+        printf("AST da operacao:\n");
+        imprimirAST($$);
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST($$, &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo($$->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
 ;
 
 operacao_matematica:

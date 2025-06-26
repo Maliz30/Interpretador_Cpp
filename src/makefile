@@ -9,6 +9,7 @@ SRC_DIR = .
 LEXER_DIR = lexer
 PARSER_DIR = parser
 AST_DIR = ast
+SEMANTICA_DIR = analise_semantica
 TABELA_DIR = tabela_simbolos
 TEST_DIR = codigos_teste
 
@@ -17,10 +18,11 @@ LEXER = $(LEXER_DIR)/lex.yy.c
 PARSER_C = $(PARSER_DIR)/parser.tab.c
 PARSER_H = $(PARSER_DIR)/parser.tab.h
 AST = $(AST_DIR)/ast.c
+SEMANTICA = $(SEMANTICA_DIR)/semantica.c
 TABELA = $(TABELA_DIR)/tabela.c
 
 # Executável
-EXEC = interpretador
+EXEC = executavel
 
 # Regra principal
 all: $(EXEC)
@@ -33,13 +35,13 @@ $(PARSER_C) $(PARSER_H): $(PARSER_DIR)/parser.y
 $(LEXER): $(LEXER_DIR)/lexer.l
 	$(FLEX) -o $(LEXER) $(LEXER_DIR)/lexer.l
 
-# Compila tudo
-$(EXEC): $(PARSER_C) $(LEXER) $(AST) $(TABELA)
-	$(CC) $(CFLAGS) $(PARSER_C) $(LEXER) $(AST) $(TABELA) -o $(EXEC)
+# Compila o interpretador com análise semântica
+$(EXEC): $(PARSER_C) $(LEXER) $(AST) $(TABELA) $(SEMANTICA)
+	$(CC) $(CFLAGS) $(PARSER_C) $(LEXER) $(AST) $(TABELA) $(SEMANTICA) -o $(EXEC)
 
 # Limpa arquivos gerados
 clean:
-	rm -f $(LEXER) $(PARSER_C) $(PARSER_H) $(EXEC)
+	rm -f $(LEXER) $(PARSER_C) $(PARSER_H) $(EXEC) $(TESTE_SEMANTICA)
 	rm -f *.o
 
 # Limpa tudo e recompila
@@ -50,7 +52,7 @@ run:
 	./$(EXEC)
 
 # Testa todos os arquivos de teste
-test-all: test-simple test-io test-expressao test-math test-conditional test-loop test-hello test-entrada-saida
+test-all: test-simple test-io test-expressao test-math test-conditional test-loop test-hello test-entrada-saida test-semantica
 
 # Testes individuais
 test-simple:
@@ -68,6 +70,10 @@ test-expressao:
 test-math:
 	@echo "=== Testando math.cpp ==="
 	./$(EXEC) $(TEST_DIR)/math.cpp
+
+test-semantica:
+	@echo "=== Testando semantica.cpp ==="
+	./$(EXEC) $(TEST_DIR)/erro-semantico.cpp
 
 test-conditional:
 	@echo "=== Testando conditional.cpp ==="
@@ -107,6 +113,7 @@ help:
 	@echo "  rebuild      - Limpa e recompila"
 	@echo "  run          - Executa o interpretador"
 	@echo "  test-all     - Testa todos os arquivos de teste"
+	@echo "  test-semantica - Roda o teste de análise semântica"
 	@echo "  test-simple  - Testa simple.cpp"
 	@echo "  test-io      - Testa entrada/saída"
 	@echo "  test-expressao - Testa expressões"
@@ -115,4 +122,4 @@ help:
 	@echo "  help         - Mostra esta ajuda"
 
 # Regra padrão
-.PHONY: all clean rebuild run test-all test-simple test-io test-expressao test-math test-conditional test-loop test-hello test-entrada-saida test-interactive test-auto help
+.PHONY: all clean rebuild run test-all test-simple test-io test-expressao test-math test-conditional test-loop test-hello test-entrada-saida test-interactive test-auto test-semantica help
