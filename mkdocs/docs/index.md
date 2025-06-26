@@ -1,4 +1,4 @@
-<h1 align="center"> Interpretador: C++ Python</h1>
+<h1 align="center"> Interpretador: C++</h1>
 <h3 align="center"> 2025.1 </h3>
 
 ## Sobre
@@ -89,6 +89,6 @@ Documentação oficial do [mkdocs-material](https://squidfunk.github.io/mkdocs-m
 |--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
 | 1.0    | 09/04/2025 | Criação da página               | [Maria Alice](https://github.com/Maliz30) | [Nicolas Bomfim](https://github.com/NickGehjk)      |
 | 1.1    | 25/04/2025 | Adição do texto sobre o projeto | [Maria Alice](https://github.com/Maliz30) | [Gabriel Saraiva](https://github.com/gabrielsarcan) |
-
+| 1.2    | 26/06/2025 | Edição do título| [Milena Baruc](https://github.com/MilenaBaruc) | [](https://github.com/) |
 
 </center>
