@@ -1,14 +1,19 @@
 %code requires {
 #include "../ast/ast.h"
+#include "../analise_semantica/semantica.h"
 }
 %{
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "../analise_semantica/semantica.h"
 
 int yylex(void);
 void yyerror(const char *s);
+
+// Variável global para a tabela de símbolos
+TabelaSimbolos tabelaGlobal;
 %}
 
 %union {
@@ -113,7 +118,15 @@ void yyerror(const char *s);
 
 programa:
     programa_declaracao
+    {
+        printf("\n=== INICIANDO ANALISE SEMANTICA ===\n");
+        inicializarTabela(&tabelaGlobal);
+    }
     | programa programa_declaracao
+    {
+        // Finaliza a analise semantica quando o programa terminar
+        finalizarAnaliseSemantica(&tabelaGlobal);
+    }
 ;
 
 programa_declaracao:
@@ -127,7 +140,7 @@ programa_declaracao:
 definicao_funcao:
     tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
     {
-        printf("Definição de função reconhecida\n");
+        printf("Definicao de funcao reconhecida\n");
     }
 ;
 
@@ -179,7 +192,7 @@ operacoes_possiveis:
 declaracao_funcao:
     tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_SEMICOLON
     {
-        printf("Declaração de função reconhecida\n");
+        printf("Declaracao de funcao reconhecida\n");
     }
 ;
 
@@ -224,9 +237,57 @@ condicional_if:
 ;
 
 operacao_matematica_atribuicao_valor:
-    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                            { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoNum($3));}
-    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                              { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT));}
-    | TOKEN_ID TOKEN_ASSIGN operacao_matematica TOKEN_SEMICOLON                   { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), $3); } 
+    TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER TOKEN_SEMICOLON                            
+    { 
+        $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoNum($3));
+        printf("AST da operacao:\n");
+        imprimirAST($$);
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST($$, &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo($$->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
+    | TOKEN_ID TOKEN_ASSIGN TOKEN_ID TOKEN_SEMICOLON                              
+    { 
+        $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoId($3, TIPO_INT));
+        printf("AST da operacao:\n");
+        imprimirAST($$);
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST($$, &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo($$->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
+    | TOKEN_ID TOKEN_ASSIGN operacao_matematica TOKEN_SEMICOLON                   
+    { 
+        $$ = criarNoOp('=', criarNoId($1, TIPO_INT), $3);
+        printf("AST da operacao:\n");
+        imprimirAST($$);
+        printf("\n");
+        
+        // Analise semantica
+        printf("=== ANALISE SEMANTICA ===\n");
+        if (analisarAST($$, &tabelaGlobal)) {
+            printf("Operacao semanticamente VALIDA\n");
+            printf("Tipo resultante: %s\n", obterNomeTipo($$->tipo));
+        } else {
+            printf("ERRO SEMANTICO na operacao!\n");
+        }
+        printf("========================\n\n");
+    }
 ;
 
 operacao_matematica:
@@ -292,7 +353,7 @@ entrada_dados_parametros:
 saida_dados:
     TOKEN_COUT saida_dados_parametro TOKEN_SEMICOLON
     {
-        printf("Saída de dados reconhecida\n");
+        printf("Saida de dados reconhecida\n");
     }
 ;
 
@@ -341,14 +402,14 @@ tipagem:
 return:
     TOKEN_RETURN TOKEN_NUMBER TOKEN_SEMICOLON
     {
-        printf("Retorno de função reconhecido\n");
+        printf("Retorno de funcao reconhecido\n");
     }
 ;
 
 declaracao_namespace:
     TOKEN_USING TOKEN_NAMESPACE TOKEN_ID TOKEN_SEMICOLON
     {
-        printf("Declaração de namespace reconhecida\n");
+        printf("Declaracao de namespace reconhecida\n");
     }
 ;
 
@@ -362,5 +423,5 @@ chamada_biblioteca:
 %%
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Erro sintático: %s\n", s);
-}
+    fprintf(stderr, "Erro sintatico: %s\n", s);
+} 
