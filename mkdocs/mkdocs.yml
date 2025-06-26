@@ -48,9 +48,9 @@ nav:
   - Início: 
     - Sobre: index.md
     - Como rodar: como-rodar.md
-  # - O Interpretador:
-    # - Como configurar o ambiente: (baixar e rodar o arquivo + saídas esperadas)
-    # - Subconjunto de C++ a ser suportado
+  - O Interpretador:
+    - Como configurar o ambiente: interpretador/como-config.md
+    - Subconjunto de C++ a ser suportado: interpretador/subconjunto.md
   - Organização e Planejamento:
     - Planejamento das sprints: organizacao-planejamento/planejamento.md
     - Boas Práticas: organizacao-planejamento/boas-praticas.md
@@ -75,7 +75,8 @@ nav:
       - Review: sprints/sprint-6/sprint-review.md      
   - Ponto de Controle 1: ponto-controle-1/index.md     
   - Ponto de Controle 2: ponto-controle-2/index.md
-  - Entrega Final: entrega-final/index.md
+  - Entrega Final:
+    - Entrega Final: entrega-final/index.md
     - Estrutura do projeto: entrega-final/estrutura-projeto.md
     - Decisões técnicas: entrega-final/decisoes-tomadas.md
     - Problemas encontrados e soluções adotadas: entrega-final/problemas-encontrados-solucao.md
