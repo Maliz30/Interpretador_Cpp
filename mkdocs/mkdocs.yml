@@ -61,9 +61,21 @@ nav:
     - Sprint 2:
       - Planning: sprints/sprint-2/sprint-planning.md
       - Review: sprints/sprint-2/sprint-review.md
-  - Ponto de Controle 1: ponto-controle-1/index.md
-  # - Ponto de Controle 2: ponto-controle-2/index.md
-  # - Entrega Final: entrega-final/index.md
-    # - Estrutura do projeto:
-    # - Decisões técnicas:
-    # - Problemas encontrados e soluções adotadas:
+    - Sprint 3:
+      - Planning: sprints/sprint-3/sprint-planning.md
+      - Review: sprints/sprint-3/sprint-review.md
+    - Sprint 4:
+      - Planning: sprints/sprint-4/sprint-planning.md
+      - Review: sprints/sprint-4/sprint-review.md  
+    - Sprint 5:
+      - Planning: sprints/sprint-5/sprint-planning.md
+      - Review: sprints/sprint-5/sprint-review.md 
+    - Sprint 6:
+      - Planning: sprints/sprint-6/sprint-planning.md
+      - Review: sprints/sprint-6/sprint-review.md      
+  - Ponto de Controle 1: ponto-controle-1/index.md     
+  - Ponto de Controle 2: ponto-controle-2/index.md
+  - Entrega Final: entrega-final/index.md
+    - Estrutura do projeto: entrega-final/estrutura-projeto.md
+    - Decisões técnicas: entrega-final/decisoes-tomadas.md
+    - Problemas encontrados e soluções adotadas: entrega-final/problemas-encontrados-solucao.md
