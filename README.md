@@ -9,49 +9,44 @@ O interpretador está sendo construído com as ferramentas Flex (para análise l
 
 ## Membros da equipe
 
-
-<center>
-
-<div style="display: flex; flex-direction: row; gap: 15px; flex-wrap: wrap; justify-content: center;" >
+<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px; justify-content: center; text-align: center;">
     <div>
         <a href="https://github.com/gabrielsarcan">
-                <img style="border-radius: 50%;"         src="https://github.com/gabrielsarcan.png" width="100px;"/>
-                <h5 class="text-center">Gabriel Saraiva</h5>
+            <img style="border-radius: 50%;" src="https://github.com/gabrielsarcan.png" width="100px" />
+            <h5>Gabriel Saraiva</h5>
         </a>
     </div>
     <div>
         <a href="https://github.com/LuisMiranda10">
-                <img style="border-radius: 50%;"         src="https://github.com/LuisMiranda10.png" width="100px;"/>
-                <h5 class="text-center">Luis Miranda</h5>
+            <img style="border-radius: 50%;" src="https://github.com/LuisMiranda10.png" width="100px" />
+            <h5>Luis Miranda</h5>
         </a>
     </div>
     <div>
         <a href="https://github.com/Maliz30">
-                <img style="border-radius: 50%;"         src="https://github.com/Maliz30.png" width="100px;"/>
-                <h5 class="text-center">Maria Alice</h5>
+            <img style="border-radius: 50%;" src="https://github.com/Maliz30.png" width="100px" />
+            <h5>Maria Alice</h5>
         </a>
     </div>
-        <div>
+    <div>
         <a href="https://github.com/MilenaBaruc">
-                <img style="border-radius: 50%;"         src="https://github.com/MilenaBaruc.png" width="100px;"/>
-                <h5 class="text-center">Milena Baruc</h5>
+            <img style="border-radius: 50%;" src="https://github.com/MilenaBaruc.png" width="100px" />
+            <h5>Milena Baruc</h5>
         </a>
     </div>
     <div>
         <a href="https://github.com/NickGehjk">
-                <img style="border-radius: 50%;"         src="https://github.com/NickGehjk.png" width="100px;"/>
-                <h5 class="text-center">Nicolas Bomfim</h5>
+            <img style="border-radius: 50%;" src="https://github.com/NickGehjk.png" width="100px" />
+            <h5>Nicolas Bomfim</h5>
         </a>
     </div>
     <div>
         <a href="https://github.com/pabloheika">
-                <img style="border-radius: 50%;"         src="https://github.com/pabloheika.png" width="100px;"/>
-                <h5 class="text-center">Pablo S. Costa</h5>
+            <img style="border-radius: 50%;" src="https://github.com/pabloheika.png" width="100px" />
+            <h5>Pablo S. Costa</h5>
         </a>
     </div>
 </div>
-    
-</center>
 
 ## Documentação
 A documentação do projeto e os códigos desenvolvidos estão disponiveis nesse [link](https://github.com/Maliz30/Interpretador_Cpp-Py).
