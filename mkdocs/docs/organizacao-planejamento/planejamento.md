@@ -90,6 +90,8 @@ _(15/05 - 04/06)_
 - Consolidar estruturas de controle 
 - Testes com códigos reais e extensos
 - Preparação para P2
+- Continuação da AST
+- Makefile
 
 <br>
 
@@ -99,7 +101,7 @@ Acesso rápido a documentação dessa sprint:
 - [review](../sprints/sprint-4/sprint-review.md)
 
 ### Sprint 5
-_(05/06 - 25/06)_
+_(05/06 - 27/06)_
 
 **Objetivo:** Interpretador ampliado e versão final pronta
 
@@ -108,6 +110,13 @@ _(05/06 - 25/06)_
 - Implementar otimizações simples 
 - Estender a linguagem com novos recursos (se possível no tempo restante)
 - Testes finais
+- Análise Semântica 
+- Finalizando AST
+- Finalizando documentação
+- Revisão da documentação
+- Revisão final de código
+- Corrigir eventuais falhas
+- Preparação da entrevista
 - Entrega final no GitHub
 
 <br>
@@ -118,23 +127,16 @@ Acesso rápido a documentação dessa sprint:
 - [review](../sprints/sprint-5/sprint-review.md)
 
 ### Sprint 6
-_(26/06 - 09/07)_
+_(30/06 - 09/07)_
 
 **Objetivo:** Preparação para entrega final
 
 **Tarefas::**
 
-- Revisão da documentação
-- Revisão final de código
-- Corrigir eventuais falhas
-- Preparação da entrevista
+- Possíveis ajustos solicitados pelo professor
 
 <br>
-
-Acesso rápido a documentação dessa sprint:
-
-- [planning](../sprints/sprint-6/sprint-planning.md)
-- [review](../sprints/sprint-6/sprint-review.md)
+<!-- Acesso rápido a documentação dessa sprint: -->
 
 
 ## Histórico de Versão

@@ -58,6 +58,7 @@ Na Tabela 1, são apresentados os participantes da reunião juntamente com os in
 |--------------------------------------------------------------------|------------------------|---------------------------------------------------------------------|
 | AST consolidada  | Estruturas de dados ou classes para cada tipo de nó: expressões, comandos, etc. -> terminar o que faltou da sprint passada         | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
 | Módulo interpretador    | Capaz de percorrer a AST e executar instruções (atribuições, expressões, fluxos de controle)                   | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
+| Makefile    | Produzir o makefile                   | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
 | Análise semântica mais robusta   | ex.: tipos, escopo, variáveis não declaradas, e possíveis alertas em tempo de execução        | [Gabriel Saraiva](https://github.com/gabrielsarcan), [Luis Miranda](https://github.com/LuisMiranda10), [Pablo S. Costa](https://github.com/pabloheika)           |
 | Formulário de P2   | Preencher formulário        | [Maria Alice](https://github.com/Maliz30) |
 

@@ -30,9 +30,7 @@
 
 ### Resultado Final
 
-Apesar dos desafios, o interpretador cumpre o escopo proposto e servirá de base para futuras evoluções do compilador.
-
-
+Apesar dos desafios, o interpretador cumpre o escopo proposto e servirá para exclusão de elementos complexos do C++ para focar no entendimento dos conceitos básicos de compilação.
 
 ## Histórico de Versões
 

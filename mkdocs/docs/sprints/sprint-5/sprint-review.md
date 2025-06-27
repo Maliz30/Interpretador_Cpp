@@ -6,7 +6,7 @@
 | Sprint  | 5             |
 |---------|---------------|
 | Início  | 05/06/2025    |
-| Término | 25/06/2025    |
+| Término | 27/06/2025    |
 | Duração |  13 dias       |
 
 ## Presença na Sprint Review
@@ -60,6 +60,9 @@ Nesta reunião foram validadas e fechadas as seguintes tarefas:
 |--------------------------------------------------------------------|------------------------|---------------------------------------------------------------------|
 | Interpretador ampliado  | Com eventuais atualizações e melhorias         | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
 | Testes de integração   | Com eventuais atualizações e melhorias       | [Gabriel Saraiva](https://github.com/gabrielsarcan), [Luis Miranda](https://github.com/LuisMiranda10), [Pablo S. Costa](https://github.com/pabloheika)           |
+| Análise Semântica   | Fazendo Análise Semântica     | [Gabriel Saraiva](https://github.com/gabrielsarcan), [Nicolas Bonfim](https://github.com/NickGehjk)   |
+| AST   | Finalizando AST     | [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)  |
+| Documentação   | Finalizando documentação     | [Milena Baruc](https://github.com/MilenaBaruc) |
 
 ## Overview da Sprint Review
 <!-- compromissos que foram definidos para os integrantes, a data de entrega e os revisores, para facilitar o trabalho, pode pedir

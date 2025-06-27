@@ -65,7 +65,7 @@ Nesta reunião foram validadas e fechadas as seguintes tarefas:
 <!-- compromissos que foram definidos para os integrantes, a data de entrega e os revisores, para facilitar o trabalho, pode pedir
 para o chat GPT formar a tabela em HTML -->
 
-Durante esta sprint, a equipe realizou o que foi planejado, organizou e planejou o fluxo de trabalho a ser executando ao longo da próxima sprint, estabelecendo uma base sólida para facilitar a realização do desenvolvimento do trabalho de forma gradual.
+Durante esta sprint, a equipe realizou o que foi planejado, organizou e planejou o fluxo de trabalho a ser executando ao longo da próxima sprint, porem tivemos dificuldade no desenvolvimento da AST e ela foi desenvolvida parcialmente.
 
 ## Gravação da reunião
 

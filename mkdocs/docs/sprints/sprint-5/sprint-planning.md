@@ -6,7 +6,7 @@
 | Sprint  | 5             |
 |---------|---------------|
 | Início  | 05/06/2025    |
-| Término | 25/06/2025    |
+| Término | 27/06/2025    |
 | Duração |  13 dias       |
 
 ## Presença na Sprint Planning
@@ -52,12 +52,13 @@ Na Tabela 1, são apresentados os participantes da reunião juntamente com os in
 
 -->
 
-
 | Tarefa                                                              | Descrição              | Responsáveis                                                        |
 |--------------------------------------------------------------------|------------------------|---------------------------------------------------------------------|
 | Interpretador ampliado  | Com eventuais otimizações e funcionalidades extras.         | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
 | Testes de integração   | Em diversos programas de exemplo      | [Gabriel Saraiva](https://github.com/gabrielsarcan), [Luis Miranda](https://github.com/LuisMiranda10), [Pablo S. Costa](https://github.com/pabloheika)           |
-
+| Análise Semântica   | Fazendo Análise Semântica     | [Gabriel Saraiva](https://github.com/gabrielsarcan), [Nicolas Bonfim](https://github.com/NickGehjk)   |
+| AST   | Finalizando AST     | [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)  |
+| Documentação   | Finalizando documentação     | [Milena Baruc](https://github.com/MilenaBaruc) |
 
 ## Overview da Sprint Planning
 <!-- compromissos que foram definidos para os integrantes, a data de entrega e os revisores, para facilitar o trabalho, pode pedir
