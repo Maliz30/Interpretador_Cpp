@@ -40,6 +40,6 @@ make run-conditional # roda com o teste conditional.cpp
 
 | Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
 |--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
-| 1.0    | 26/06/2025 | Edição de como rodar | [Milena Baruc](https://github.com/MilenaBaruc) | [](https://github.com/) |
+| 1.0    | 26/06/2025 | Edição de como rodar | [Milena Baruc](https://github.com/MilenaBaruc) | [Luis Miranda](https://github.com/LuisMiranda10) |
 
 </center>
