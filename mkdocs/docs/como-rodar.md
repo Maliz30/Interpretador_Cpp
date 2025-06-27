@@ -24,3 +24,22 @@ Dentro da pasta _/src_:
 - gere o executável: `gcc -o executavel parser/parser.tab.c lexer/lex.yy.c -lfl`
 - rode (inserindo dados manualmente): `./executavel`
 - rode (inserindo um arquivo de teste): `./executavel < codigos_teste/nomeArquivoDeTeste.cpp`
+- para rodar com makefile: 
+```bash
+make        # compila tudo
+make run    # roda o programa compilado
+make clean  # apaga os arquivos gerados
+make run-hello       # roda com o teste hello.cpp
+make run-conditional # roda com o teste conditional.cpp
+# e assim vai...
+```
+
+<center>
+
+## Histórico de Versões
+
+| Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
+|--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
+| 1.0    | 26/06/2025 | Edição de como rodar | [Milena Baruc](https://github.com/MilenaBaruc) | [](https://github.com/) |
+
+</center>

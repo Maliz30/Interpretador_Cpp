@@ -132,7 +132,7 @@ Sprint 2:
 
 ### Testes realizados
 
-Neste [link](https://maliz30.github.io/Interpretador_Cpp-Py/como-rodar/) é possível visualizar como rodar um teste.
+Neste [link](https://maliz30.github.io/Interpretador_Cpp/como-rodar/) é possível visualizar como rodar um teste.
 
 #### Hello World
 
@@ -228,8 +228,8 @@ int main ( ) {
 
 <center>
 
-| Versão | Data       | Descrição                     | Autor(es)                                            | Revisor(es)                                      |
-| ------ | ---------- | ----------------------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
+|--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
 | 1.0    | 28/04/2025 | Documentação do Ponto de Controle 1 | [Maria Alice](https://github.com/MilenaBaruc)  | [Nicolas Bonfim](https://github.com/NickGehjk) |
 
 </center>

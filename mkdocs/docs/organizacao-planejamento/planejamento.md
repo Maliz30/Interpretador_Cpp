@@ -72,6 +72,13 @@ _(01/05 - 14/05)_
 - Tratar erros sintáticos e semânticos básicos
 - Testar a AST em pequenos programas
 
+<br>
+
+Acesso rápido a documentação dessa sprint:
+
+- [planning](../sprints/sprint-3/sprint-planning.md)
+- [review](../sprints/sprint-3/sprint-review.md)
+
 ### Sprint 4
 _(15/05 - 04/06)_
 
@@ -83,6 +90,13 @@ _(15/05 - 04/06)_
 - Consolidar estruturas de controle 
 - Testes com códigos reais e extensos
 - Preparação para P2
+
+<br>
+
+Acesso rápido a documentação dessa sprint:
+
+- [planning](../sprints/sprint-4/sprint-planning.md)
+- [review](../sprints/sprint-4/sprint-review.md)
 
 ### Sprint 5
 _(05/06 - 25/06)_
@@ -96,6 +110,13 @@ _(05/06 - 25/06)_
 - Testes finais
 - Entrega final no GitHub
 
+<br>
+
+Acesso rápido a documentação dessa sprint:
+
+- [planning](../sprints/sprint-5/sprint-planning.md)
+- [review](../sprints/sprint-5/sprint-review.md)
+
 ### Sprint 6
 _(26/06 - 09/07)_
 
@@ -108,6 +129,13 @@ _(26/06 - 09/07)_
 - Corrigir eventuais falhas
 - Preparação da entrevista
 
+<br>
+
+Acesso rápido a documentação dessa sprint:
+
+- [planning](../sprints/sprint-6/sprint-planning.md)
+- [review](../sprints/sprint-6/sprint-review.md)
+
 
 ## Histórico de Versão
 
@@ -115,3 +143,4 @@ _(26/06 - 09/07)_
 |--------|------------|-------------------------------------------------|-------------------------------------------|--------------|
 | `1.0`  | 11/04/2025 | Criação do cronograma                           | [Maria Alice](https://github.com/Maliz30) | [Luis Miranda](https://github.com/LuisMiranda10) |
 | `1.1`  | 25/04/2025 | Reajuste e correções nas datas do no cronograma | [Maria Alice](https://github.com/Maliz30) | [Milena Baruc](https://github.com/MilenaBaruc)   |
+| `2.0`  | 26/06/2025 | Atualização | [Milena Baruc](https://github.com/MilenaBaruc) | [](https://github.com/)   |
