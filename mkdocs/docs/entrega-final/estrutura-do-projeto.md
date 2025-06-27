@@ -19,9 +19,8 @@ Interpretador_Cpp/
 ├── LICENSE                # Licença do projeto
 └── README.md              # Documento principal do repositório, com instruções e detalhes gerais
 ```
-
 ## Histórico de Versões
 
 | Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
 |--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
-| 1.0    | 26/06/2025 | Criação da página | [Milena Baruc](https://github.com/MilenaBaruc) | [Maria Alice](https://github.com/Maliz30) |
+| 1.0    | 26/06/2025 | Criação da página | [Milena Baruc](https://github.com/MilenaBaruc) | [Maria Alice](https://github.com/Maliz30) e [Luis Miranda](https://github.com/LuisMiranda10) |
