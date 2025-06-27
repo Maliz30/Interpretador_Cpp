@@ -76,10 +76,7 @@ A reunião foi realizada via discord, entretanto não foi gravada.
 
 ## Histórico de versões
 
-<center>
 
 | Versão | Data       | Descrição                     | Autor(es)                                 | Revisor(es)                                     |
 | ------ | ---------- | ----------------------------- | ----------------------------------------- | ----------------------------------------------- |
 | 1.0    | 26/04/2025 | Criação da review da Sprint 2 | [Maria Alice](https://github.com/Maliz30) | [Nicolas Bonfim](https://github.com/NickGehjk)  |
-
-</center>

@@ -75,10 +75,7 @@ A reunião foi realizada via discord, entretanto não foi gravada.
 
 ## Histórico de versões
 
-<center>
 
 | Versão | Data       | Descrição                     | Autor(es)                                 | Revisor(es)                                     |
 | ------ | ---------- | ----------------------------- | ----------------------------------------- | ----------------------------------------------- |
 | 1.0    | 16/04/2025 | Criação da review da Sprint 1 | [Maria Alice](https://github.com/Maliz30) | [Pablo S. Costa](https://github.com/pabloheika) |
-
-</center>

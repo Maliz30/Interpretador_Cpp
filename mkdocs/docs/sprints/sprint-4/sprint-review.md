@@ -1,15 +1,15 @@
-# Sprint xx - Planning/Review
+# Sprint 04 - Review
 <!-- Este é um arquivo base, para criar uma ata, basta copiá-lo e preencher os dados da reunião -->
 
 ## Informações Básicas da Sprint
 
-| Sprint  | x             |
+| Sprint  | 4            |
 |---------|---------------|
-| Início  | xx/xx/2025    |
-| Término | xx/xx/2025    |
-| Duração | xx dias       |
+| Início  | 15/05/2025    |
+| Término | 04/06/2025    |
+| Duração |  14 dias       |
 
-## Presença na Sprint Planning/Review
+## Presença na Sprint Review
 
 <!-- Colocar um ✅ se o participante estiver presente ou um ❌ caso negativo -->
 Na Tabela 1, são apresentados os participantes da reunião juntamente com os indicadores que demonstram se estão presentes ou não, onde ✅ significa que o participante está presente e ❌ significa que o participante não compareceu à reunião.
@@ -25,7 +25,7 @@ Na Tabela 1, são apresentados os participantes da reunião juntamente com os in
 
 <center>
 
-<font size="2"><p style="text-align: center">Fonte: [Luis Miranda](https://github.com/LuisMiranda10)</p></font>
+<font size="2"><p style="text-align: center">Fonte: [Milena Baruc](https://github.com/MilenaBaruc)</p></font>
 
 </center>
 
@@ -35,10 +35,12 @@ Na Tabela 1, são apresentados os participantes da reunião juntamente com os in
 
 | Assuntos                  |
 |---------------------------|
-|                           |
+| Assuntos                               |
+| -------------------------------------- |
+| Dificuldades nas atividades            |
+| Revisão do cronograma                  |
 
-
-## Sprint Backlog /Review
+## Sprint Backlog 
 <!-- decisões feitas pela equipe -->
 <!-- Github do time para facilitar ao colocar os responsáveis: 
 
@@ -52,27 +54,29 @@ Na Tabela 1, são apresentados os participantes da reunião juntamente com os in
 -->
 
 
-| Issue                                                              | Descrição              | Responsáveis                                                        |
-|--------------------------------------------------------------------|------------------------|---------------------------------------------------------------------|
-| [#xx](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/xx)   | XX                     | [Nome](https://github.com/), [Nome](https://github.com/)            |
-| [#xx](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/xx)   | XX                     | [Nome](https://github.com/), [Nome](https://github.com/)            |
-| [#xx](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/xx)   | XX                     | [Nome](https://github.com/), [Nome](https://github.com/)            |
-| [#xx](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/xx)   | XX                     | [Nome](https://github.com/), [Nome](https://github.com/)            |
-| [#xx](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/xx)   | XX                     | [Nome](https://github.com/), [Nome](https://github.com/)            |
+Nesta reunião foram validadas e fechadas as seguintes tarefas:
 
-## Overview da Sprint Planning/Review
+| Tarefa                                                              | Descrição              | Responsáveis                                                        |
+|--------------------------------------------------------------------|------------------------|---------------------------------------------------------------------|
+| AST consolidada  | Estruturas de dados ou classes para cada tipo de nó: expressões, comandos, etc. -> terminar o que faltou da sprint passada         | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
+| Módulo interpretador    | Capaz de percorrer a AST e executar instruções (atribuições, expressões, fluxos de controle)                   | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
+| Análise semântica mais robusta   | ex.: tipos, escopo, variáveis não declaradas, e possíveis alertas em tempo de execução        | [Gabriel Saraiva](https://github.com/gabrielsarcan), [Luis Miranda](https://github.com/LuisMiranda10), [Pablo S. Costa](https://github.com/pabloheika)           |
+| Formulário de P2   | Preencher formulário        | [Maria Alice](https://github.com/Maliz30) |
+
+## Overview da Sprint Review
 <!-- compromissos que foram definidos para os integrantes, a data de entrega e os revisores, para facilitar o trabalho, pode pedir
 para o chat GPT formar a tabela em HTML -->
 
-Durante esta sprint, os times foram organizados conforme a decisão dos membros, com um foco maior 
+Durante esta sprint, a equipe realizou o que foi planejado, organizou e planejou o fluxo de trabalho a ser executando ao longo da próxima sprint, estabelecendo uma base sólida para facilitar a realização do desenvolvimento do trabalho de forma gradual.
 
 ## Gravação da reunião
 
-[Gravação da reunião aqui]()
+A sprint review foi feita pelo discord entre os integrantes.
 
 ## Histórico de versões
 
 
 | Versão    | Data           |  Descrição         | Autor(es)                            | Revisor(es)                            |
 | --------- | -------------- | ------------------ | ------------------------------------ | -------------------------------------- |
-| 1.0       | xx/xx/2025     | xxxxxxxx           | [Nome](https://github.com/)          | [Nome](https://github.com/)            |
+| 1.0       | 26/06/2025     | Criação da Sprint 04          | [Milena Baruc](https://github.com/MilenaBaruc)          | [Maria Alice](https://github.com/Maliz30)            |
+

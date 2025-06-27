@@ -1,13 +1,13 @@
-# Sprint 01 - Planning
+# Sprint 04 - Planning
 <!-- Este é um arquivo base, para criar uma ata, basta copiá-lo e preencher os dados da reunião -->
 
 ## Informações Básicas da Sprint
 
-| Sprint  | 1             |
+| Sprint  | 4             |
 |---------|---------------|
-| Início  | 09/04/2025    |
-| Término | 14/04/2025    |
-| Duração |  7 dias       |
+| Início  | 15/05/2025    |
+| Término | 04/06/2025    |
+| Duração |  14 dias       |
 
 ## Presença na Sprint Planning
 
@@ -25,7 +25,7 @@ Na Tabela 1, são apresentados os participantes da reunião juntamente com os in
 
 <center>
 
-<font size="2"><p style="text-align: center">Fonte: [Luis Miranda](https://github.com/LuisMiranda10)</p></font>
+<font size="2"><p style="text-align: center">Fonte: [Milena Baruc](https://github.com/MilenaBaruc)</p></font>
 
 </center>
 
@@ -36,9 +36,9 @@ Na Tabela 1, são apresentados os participantes da reunião juntamente com os in
 | Assuntos                  |
 |---------------------------|
 | Cronograma da equipe (encontros, divisões, etc)                          |
-| Configuração do ambiente                          |
-| Definição do escopo do projeto (linguagem etc)                          |
-| Criação da git pages                         |
+| Análise semântica mais robusta                         |
+| Módulo interpretador                         |
+| Tarefa da sprint passada - AST                         |
 
 ## Sprint Backlog 
 <!-- decisões feitas pela equipe -->
@@ -54,20 +54,20 @@ Na Tabela 1, são apresentados os participantes da reunião juntamente com os in
 -->
 
 
-| Issue                                                              | Descrição              | Responsáveis                                                        |
+| Tarefa                                                              | Descrição              | Responsáveis                                                        |
 |--------------------------------------------------------------------|------------------------|---------------------------------------------------------------------|
-| [#03](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/3)   | Instalar Dependências                     | Todos            |
-| [#04](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/4)   | Criar documentação inicial                     | [Luis Miranda](https://github.com/LuisMiranda10), [Maria Alice](https://github.com/Maliz30)            |
-| [#05](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/5)   | Definir cronograma e criar Git pages                    | [Maria Alice](https://github.com/Maliz30)            |
-| [#06](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/6)   | Criar Template de documentação de sprints                     | [Luis Miranda](https://github.com/LuisMiranda10)            |
-| [#07](https://github.com/Maliz30/Interpretador_Cpp-Py/issues/7)   | Definir subconjunto C++ a ser suportado                     | Todos            |
+| AST consolidada  | Estruturas de dados ou classes para cada tipo de nó: expressões, comandos, etc. -> terminar o que faltou da sprint passada         | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
+| Módulo interpretador    | Capaz de percorrer a AST e executar instruções (atribuições, expressões, fluxos de controle)                   | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
+| Makefile    | Produzir o makefile                   | [Milena Baruc](https://github.com/MilenaBaruc), [Maria Alice](https://github.com/Maliz30), [Nicolas Bonfim](https://github.com/NickGehjk)           |
+| Análise semântica mais robusta   | ex.: tipos, escopo, variáveis não declaradas, e possíveis alertas em tempo de execução        | [Gabriel Saraiva](https://github.com/gabrielsarcan), [Luis Miranda](https://github.com/LuisMiranda10), [Pablo S. Costa](https://github.com/pabloheika)           |
+| Formulário de P2   | Preencher formulário        | [Maria Alice](https://github.com/Maliz30) |
 
 
 ## Overview da Sprint Planning
 <!-- compromissos que foram definidos para os integrantes, a data de entrega e os revisores, para facilitar o trabalho, pode pedir
 para o chat GPT formar a tabela em HTML -->
 
-Durante esta sprint, conforme a decisão dos membros, tivemos um foco maior para a organização da equipe, com decisões relacionadas a como vamos trabalhar juntos e também a instalação de dependências/configuração do ambiente.
+Durante esta sprint, conforme a decisão dos membros, nos separamos em trios para que fosse facilitado a realização das atividades.
 
 ## Gravação da reunião
 
@@ -78,6 +78,5 @@ A sprint foi decidida presencialmente entre os integrantes.
 
 | Versão    | Data           |  Descrição         | Autor(es)                            | Revisor(es)                            |
 | --------- | -------------- | ------------------ | ------------------------------------ | -------------------------------------- |
-| 1.0       | 09/04/2025     | Criação da Sprint 01           | [Luis Miranda](https://github.com/LuisMiranda10)          | [Maria Alice](https://github.com/Maliz30)            |
-| 1.1       | 16/04/2025     | Correção de Datas              | [Maria Alice](https://github.com/Maliz30)                 | [Luis Miranda](https://github.com/LuisMiranda10)     |
+| 1.0       | 26/06/2025     | Criação da Sprint 04          | [Milena Baruc](https://github.com/MilenaBaruc)          | [Maria Alice](https://github.com/Maliz30)            |
 
