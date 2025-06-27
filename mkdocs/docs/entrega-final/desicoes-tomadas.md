@@ -34,3 +34,13 @@ Utilização de casos básicos para verificar:
 ### 5. Limitações Definidas
 
 Exclusão de elementos complexos do C++ para focar no entendimento dos conceitos básicos de compilação.
+
+<center>
+
+## Histórico de Versões
+
+| Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
+|--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
+| 1.0    | 26/06/2025 | Edição de como rodar | [Milena Baruc](https://github.com/MilenaBaruc) | [Luis Miranda](https://github.com/LuisMiranda10) |
+
+</center>
