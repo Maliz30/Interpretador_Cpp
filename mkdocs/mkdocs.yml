@@ -13,8 +13,8 @@ docs_dir: docs
 theme: 
   name: material
   language: pt-BR
-  favicon: assets/logo.png
-  logo: assets/logo.png
+  favicon: assets/logoBoa.png
+  logo: assets/logoBoa.png
   icon: 
    repo: fontawesome/brands/github
   font: 
