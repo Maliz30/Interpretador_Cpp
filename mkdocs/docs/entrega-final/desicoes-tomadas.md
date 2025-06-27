@@ -13,6 +13,8 @@ Foco nas funcionalidades essenciais:
 - Tipos básicos (int, float, char).
 - Operações matemáticas e de controle (`if`, `else`, `while`, `for`).
 - Variáveis e escopos básicos.
+- Entrada e saída de dados.
+- Verificação de erro semânticos no código.
 
 ### 3. Estrutura Modular
 
