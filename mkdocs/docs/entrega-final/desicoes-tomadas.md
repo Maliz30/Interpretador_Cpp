@@ -13,6 +13,8 @@ Foco nas funcionalidades essenciais:
 - Tipos básicos (int, float, char).
 - Operações matemáticas e de controle (`if`, `else`, `while`, `for`).
 - Variáveis e escopos básicos.
+- Entrada e saída de dados.
+- Verificação de erro semânticos no código.
 
 ### 3. Estrutura Modular
 
@@ -22,6 +24,7 @@ Separação clara entre:
 - Parser
 - Árvore de sintaxe
 - Análise semântica
+- Tabela de símbolos
 
 ### 4. Estratégia de Testes
 
@@ -30,6 +33,8 @@ Utilização de casos básicos para verificar:
 - Operações aritméticas
 - Controle de fluxo
 - Declarações e escopos básicos
+- Entrada e saída de dados
+- Verificação de erro semânticos no código
 
 ### 5. Limitações Definidas
 
