@@ -136,8 +136,9 @@ _(30/06 - 09/07)_
 - Possíveis ajustos solicitados pelo professor
 
 <br>
-<!-- Acesso rápido a documentação dessa sprint: -->
-
+<!-- Acesso rápido a documentação dessa sprint: 
+- [planning](../sprints/sprint-5/sprint-planning.md)
+- [review](../sprints/sprint-5/sprint-review.md) -->
 
 ## Histórico de Versão
 
