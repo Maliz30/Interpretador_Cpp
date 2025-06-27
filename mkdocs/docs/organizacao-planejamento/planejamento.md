@@ -143,4 +143,4 @@ Acesso rápido a documentação dessa sprint:
 |--------|------------|-------------------------------------------------|-------------------------------------------|--------------|
 | `1.0`  | 11/04/2025 | Criação do cronograma                           | [Maria Alice](https://github.com/Maliz30) | [Luis Miranda](https://github.com/LuisMiranda10) |
 | `1.1`  | 25/04/2025 | Reajuste e correções nas datas do no cronograma | [Maria Alice](https://github.com/Maliz30) | [Milena Baruc](https://github.com/MilenaBaruc)   |
-| `2.0`  | 26/06/2025 | Atualização | [Milena Baruc](https://github.com/MilenaBaruc) | [](https://github.com/)   |
+| `2.0`  | 26/06/2025 | Atualização | [Milena Baruc](https://github.com/MilenaBaruc) | [Maria Alice](https://github.com/Maliz30)   |

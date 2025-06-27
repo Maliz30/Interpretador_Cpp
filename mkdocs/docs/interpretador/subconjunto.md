@@ -41,12 +41,9 @@ Se quiser evoluir para suportar mais partes da linguagem, abra uma issue ou envi
 
 https://github.com/Maliz30/Interpretador_Cpp
 
-<center>
 
 ### Histórico de Versões
 
 | Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
 |--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
-| 1.0    | 26/06/2025 | Criação da página               | [Milena Baruc](https://github.com/MilenaBaruc) | [](https://github.com/)      |
-
-</center>
+| 1.0    | 26/06/2025 | Criação da página               | [Milena Baruc](https://github.com/MilenaBaruc) | [Maria Alice](https://github.com/Maliz30)      |

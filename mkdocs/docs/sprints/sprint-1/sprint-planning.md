@@ -75,11 +75,9 @@ A sprint foi decidida presencialmente entre os integrantes.
 
 ## Histórico de versões
 
-<center>
 
 | Versão    | Data           |  Descrição         | Autor(es)                            | Revisor(es)                            |
 | --------- | -------------- | ------------------ | ------------------------------------ | -------------------------------------- |
 | 1.0       | 09/04/2025     | Criação da Sprint 01           | [Luis Miranda](https://github.com/LuisMiranda10)          | [Maria Alice](https://github.com/Maliz30)            |
 | 1.1       | 16/04/2025     | Correção de Datas              | [Maria Alice](https://github.com/Maliz30)                 | [Luis Miranda](https://github.com/LuisMiranda10)     |
 
-</center>

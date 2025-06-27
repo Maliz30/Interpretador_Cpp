@@ -226,10 +226,8 @@ int main ( ) {
 ```
 ## Histórico de versões
 
-<center>
 
 | Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
 |--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
 | 1.0    | 28/04/2025 | Documentação do Ponto de Controle 1 | [Maria Alice](https://github.com/MilenaBaruc)  | [Nicolas Bonfim](https://github.com/NickGehjk) |
 
-</center>

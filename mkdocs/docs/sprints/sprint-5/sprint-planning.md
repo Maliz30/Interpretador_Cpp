@@ -71,10 +71,8 @@ A sprint foi decidida presencialmente entre os integrantes.
 
 ## Histórico de versões
 
-<center>
 
 | Versão    | Data           |  Descrição         | Autor(es)                            | Revisor(es)                            |
 | --------- | -------------- | ------------------ | ------------------------------------ | -------------------------------------- |
-| 1.0       | 26/06/2025     | Criação da Sprint 05          | [Milena Baruc](https://github.com/MilenaBaruc)          | [](https://github.com/)            |
+| 1.0       | 26/06/2025     | Criação da Sprint 05          | [Milena Baruc](https://github.com/MilenaBaruc)          | [Maria Alice](https://github.com/Maliz30)             |
 
-</center>

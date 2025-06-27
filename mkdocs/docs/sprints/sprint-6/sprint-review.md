@@ -76,10 +76,6 @@ A sprint review foi feita pelo discord entre os integrantes.
 
 ## Histórico de versões
 
-<center>
-
 | Versão    | Data           |  Descrição         | Autor(es)                            | Revisor(es)                            |
 | --------- | -------------- | ------------------ | ------------------------------------ | -------------------------------------- |
-| 1.0       | 27/06/2025     | Criação da Sprint 06          | [Milena Baruc](https://github.com/MilenaBaruc)          | [](https://github.com/)            |
-
-</center>
+| 1.0       | 27/06/2025     | Criação da Sprint 06          | [Milena Baruc](https://github.com/MilenaBaruc)          | [Maria Alice](https://github.com/Maliz30)            |

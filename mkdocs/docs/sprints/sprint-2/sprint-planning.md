@@ -75,10 +75,7 @@ Não possui gravação.
 
 ## Histórico de versões
 
-<center>
 
 | Versão    | Data           |  Descrição         | Autor(es)                            | Revisor(es)                            |
 | --------- | -------------- | ------------------ | ------------------------------------ | -------------------------------------- |
 | 1.0       | 16/04/2025     | Criação da Sprint 2           | [Gabriel Saraiva](https://github.com/gabrielsarcan)          | [Nicolas Bonfim](https://github.com/NickGehjk)            |
-
-</center>

@@ -80,15 +80,12 @@ Documentação oficial do [mkdocs-material](https://squidfunk.github.io/mkdocs-m
 
 **Importante:** Nunca mexa na branch *gh-pages*
 
-<center>
 
 
 ## Histórico de Versões
 
-| Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
-|--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
-| 1.0    | 09/04/2025 | Criação da página               | [Maria Alice](https://github.com/Maliz30) | [Nicolas Bomfim](https://github.com/NickGehjk)      |
-| 1.1    | 25/04/2025 | Adição do texto sobre o projeto | [Maria Alice](https://github.com/Maliz30) | [Gabriel Saraiva](https://github.com/gabrielsarcan) |
-| 1.2    | 26/06/2025 | Edição do título| [Milena Baruc](https://github.com/MilenaBaruc) | [](https://github.com/) |
-
-</center>
+| Versão |    Data    | Descrição                       | Autor(es)                                      | Revisor(es)                                         |
+| ------ | :--------: | ------------------------------- | ---------------------------------------------- | --------------------------------------------------- |
+| 1.0    | 09/04/2025 | Criação da página               | [Maria Alice](https://github.com/Maliz30)      | [Nicolas Bomfim](https://github.com/NickGehjk)      |
+| 1.1    | 25/04/2025 | Adição do texto sobre o projeto | [Maria Alice](https://github.com/Maliz30)      | [Gabriel Saraiva](https://github.com/gabrielsarcan) |
+| 1.2    | 26/06/2025 | Edição do título                | [Milena Baruc](https://github.com/MilenaBaruc) | [Maria Alice](https://github.com/Maliz30)           |

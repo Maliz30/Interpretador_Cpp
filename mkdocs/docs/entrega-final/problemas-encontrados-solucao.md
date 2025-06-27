@@ -32,13 +32,10 @@
 
 Apesar dos desafios, o interpretador cumpre o escopo proposto e servirá de base para futuras evoluções do compilador.
 
-<center>
 
 
 ## Histórico de Versões
 
 | Versão |    Data    | Descrição                       | Autor(es)                                 | Revisor(es)                                         |
 |--------|:----------:|---------------------------------|-------------------------------------------|-----------------------------------------------------|
-| 1.0    | 26/06/2025 | Criação da página               | [Milena Baruc](https://github.com/MilenaBaruc) | [](https://github.com/)      |
-
-</center>
+| 1.0    | 26/06/2025 | Criação da página               | [Milena Baruc](https://github.com/MilenaBaruc) | [Maria Alice](https://github.com/Maliz30)      |

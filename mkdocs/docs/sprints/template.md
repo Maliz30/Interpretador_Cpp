@@ -72,10 +72,7 @@ Durante esta sprint, os times foram organizados conforme a decisão dos membros,
 
 ## Histórico de versões
 
-<center>
 
 | Versão    | Data           |  Descrição         | Autor(es)                            | Revisor(es)                            |
 | --------- | -------------- | ------------------ | ------------------------------------ | -------------------------------------- |
 | 1.0       | xx/xx/2025     | xxxxxxxx           | [Nome](https://github.com/)          | [Nome](https://github.com/)            |
-
-</center>
