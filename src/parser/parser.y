@@ -8,13 +8,19 @@
 #include <string.h>
 #include <stdbool.h>
 #include "../analise_semantica/semantica.h"
+#include "../ast/ast.h"
+extern FILE *yyin;
+// Variável global para a AST
+NoAST *raiz_ast = NULL;
+
+TabelaSimbolos tabelaGlobal;
 
 int yylex(void);
 void yyerror(const char *s);
-
-// Variável global para a tabela de símbolos
-TabelaSimbolos tabelaGlobal;
 %}
+
+// Forward declaration para o union
+// struct noAST;
 
 %union {
     int v_int;           
@@ -105,6 +111,21 @@ TabelaSimbolos tabelaGlobal;
 %type <no> while_loop
 %type <no> for_loop
 %type <no> incremento
+%type <no> programa
+%type <no> lista_comandos
+%type <no> programa_declaracao
+%type <no> expressao_completa
+%type <no> expressao
+%type <no> definicao_funcao
+%type <no> declaracao_funcao
+%type <no> entrada_dados
+%type <no> entrada_dados_parametros
+%type <no> saida_dados
+%type <no> saida_dados_parametro
+%type <no> saida_dados_opcoes
+%type <no> return
+%type <no> declaracao_namespace
+%type <no> chamada_biblioteca
 
 %token TOKEN_ERROR
 
@@ -117,15 +138,26 @@ TabelaSimbolos tabelaGlobal;
 %%
 
 programa:
+    lista_comandos
+    {
+        raiz_ast = $1;
+    }
+;
+
+lista_comandos:
     programa_declaracao
     {
-        printf("\n=== INICIANDO ANALISE SEMANTICA ===\n");
-        inicializarTabela(&tabelaGlobal);
+        $$ = $1;
     }
-    | programa programa_declaracao
+    | lista_comandos programa_declaracao
     {
-        // Finaliza a analise semantica quando o programa terminar
-        finalizarAnaliseSemantica(&tabelaGlobal);
+        if ($1 == NULL) {
+            $$ = $2;
+        } else if ($2) {
+            $$ = criarNoOp(';', $1, $2);
+        } else {
+            $$ = $1;
+        }
     }
 ;
 
@@ -135,12 +167,52 @@ programa_declaracao:
     | declaracao_variavel           
     | declaracao_funcao             
     | definicao_funcao              
+    | operacao_matematica_atribuicao_valor
+    | while_loop
+    | for_loop
+    | condicional_if
+    | return
+    | expressao_completa
+    | entrada_dados
+    | saida_dados
+;
+
+expressao_completa:
+    TOKEN_ID TOKEN_ASSIGN expressao TOKEN_SEMICOLON
+    {
+        $$ = criarNoOp('=', criarNoId($1, TIPO_INT), $3);
+    }
+    | TOKEN_ID TOKEN_PLUS TOKEN_PLUS TOKEN_SEMICOLON
+    {
+        $$ = criarNoOp('P', criarNoId($1, TIPO_INT), NULL);
+    }
+    | TOKEN_ID TOKEN_MINUS TOKEN_MINUS TOKEN_SEMICOLON
+    {
+        $$ = criarNoOp('M', criarNoId($1, TIPO_INT), NULL);
+    }
+;
+
+expressao:
+    operacao_matematica
+    | TOKEN_NUMBER
+    {
+        $$ = criarNoNum($1);
+    }
+    | TOKEN_ID
+    {
+        $$ = criarNoId($1, TIPO_INT);
+    }
+    | TOKEN_LPAREN operacao_matematica TOKEN_RPAREN
+    {
+        $$ = $2;
+    }
 ;
 
 definicao_funcao:
     tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_LBRACE bloco_escopo TOKEN_RBRACE
     {
-        printf("Definicao de funcao reconhecida\n");
+        printf("Definição de função reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -192,7 +264,8 @@ operacoes_possiveis:
 declaracao_funcao:
     tipagem TOKEN_ID TOKEN_LPAREN parametros_funcao TOKEN_RPAREN TOKEN_SEMICOLON
     {
-        printf("Declaracao de funcao reconhecida\n");
+        printf("Declaração de função reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -342,30 +415,32 @@ entrada_dados:
     TOKEN_CIN entrada_dados_parametros TOKEN_SEMICOLON
     {
         printf("Entrada de dados reconhecida\n");
+        $$ = criarNoEntrada($2);
     }
 ;
 
 entrada_dados_parametros:
-    TOKEN_SHIFT_R TOKEN_ID
-    | entrada_dados_parametros TOKEN_SHIFT_R TOKEN_ID
+    TOKEN_SHIFT_R TOKEN_ID { $$ = criarNoId($2, TIPO_INT); }
+    | entrada_dados_parametros TOKEN_SHIFT_R TOKEN_ID { $$ = criarNoOp(',', $1, criarNoId($3, TIPO_INT)); }
 ;
 
 saida_dados:
     TOKEN_COUT saida_dados_parametro TOKEN_SEMICOLON
     {
-        printf("Saida de dados reconhecida\n");
+        printf("Saída de dados reconhecida\n");
+        $$ = criarNoSaida($2);
     }
 ;
 
 saida_dados_parametro:
-    TOKEN_SHIFT_L saida_dados_opcoes
-    | saida_dados_parametro TOKEN_SHIFT_L saida_dados_opcoes
+    TOKEN_SHIFT_L saida_dados_opcoes { $$ = $2; }
+    | saida_dados_parametro TOKEN_SHIFT_L saida_dados_opcoes { $$ = criarNoOp(',', $1, $3); }
 ;
 
 saida_dados_opcoes:
-    TOKEN_ID 
-    | TOKEN_STRING_LITERAL 
-    | TOKEN_ENDL 
+    TOKEN_ID { $$ = criarNoId($1, TIPO_INT); }
+    | TOKEN_STRING_LITERAL { /* TODO: Suporte a string */ $$ = NULL; }
+    | TOKEN_ENDL { $$ = NULL; }
 ;
 
 declaracao_variavel:
@@ -378,10 +453,24 @@ declaracao_variavel:
 ;
 
 variavel:
-    TOKEN_ID { $$ = criarNoId($1, TIPO_INT); }
-  | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { $$ = criarNoOp('=', criarNoId($1, TIPO_INT), criarNoNum($3)); }
-  | variavel TOKEN_COMMA TOKEN_ID { $$ = criarNoOp(',', $1, criarNoId($3, TIPO_INT)); }
-  | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { $$ = criarNoOp(',', $1, criarNoOp('=', criarNoId($3, TIPO_INT), criarNoNum($5))); }
+    TOKEN_ID { 
+        $$ = criarNoDeclaracao(TIPO_INT, $1);
+    }
+  | TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { 
+        $$ = criarNoOp('=', criarNoDeclaracao(TIPO_INT, $1), criarNoNum($3));
+    }
+  | TOKEN_ID TOKEN_ASSIGN operacao_matematica { 
+        $$ = criarNoOp('=', criarNoDeclaracao(TIPO_INT, $1), $3);
+    }
+  | variavel TOKEN_COMMA TOKEN_ID { 
+        $$ = criarNoOp(',', $1, criarNoDeclaracao(TIPO_INT, $3)); 
+    }
+  | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN TOKEN_NUMBER { 
+        $$ = criarNoOp(',', $1, criarNoOp('=', criarNoDeclaracao(TIPO_INT, $3), criarNoNum($5))); 
+    }
+  | variavel TOKEN_COMMA TOKEN_ID TOKEN_ASSIGN operacao_matematica { 
+        $$ = criarNoOp(',', $1, criarNoOp('=', criarNoDeclaracao(TIPO_INT, $3), $5)); 
+    }
 ;
 
 tipagem:
@@ -402,14 +491,16 @@ tipagem:
 return:
     TOKEN_RETURN TOKEN_NUMBER TOKEN_SEMICOLON
     {
-        printf("Retorno de funcao reconhecido\n");
+        printf("Retorno de função reconhecido\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
 declaracao_namespace:
     TOKEN_USING TOKEN_NAMESPACE TOKEN_ID TOKEN_SEMICOLON
     {
-        printf("Declaracao de namespace reconhecida\n");
+        printf("Declaração de namespace reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
@@ -417,11 +508,35 @@ chamada_biblioteca:
     TOKEN_HASH TOKEN_INCLUDE TOKEN_LT TOKEN_ID TOKEN_GT
     {
         printf("Chamada de biblioteca reconhecida\n");
+        $$ = NULL; // Retornar NULL para nós não implementados
     }
 ;
 
 %%
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Erro sintatico: %s\n", s);
-} 
+    fprintf(stderr, "Erro sintático: %s\n", s);
+}
+
+int main(int argc, char **argv) {
+    if (argc > 1) {
+        FILE *f = fopen(argv[1], "r");
+        if (!f) {
+            perror("Erro ao abrir arquivo");
+            return 1;
+        }
+        yyin = f;
+    }
+    int resultado = yyparse();
+    if (resultado == 0 && raiz_ast) {
+        printf("AST gerada com sucesso!\n");
+        printf("AST completa:\n");
+        imprimirAST(raiz_ast);
+        printf("\n\n");
+        // Executar o programa
+        executarPrograma(raiz_ast);
+        // Liberar memória
+        liberarAST(raiz_ast);
+    }
+    return resultado;
+}

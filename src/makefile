@@ -1,5 +1,6 @@
 # Compilador e flags
 CC = gcc
+CFLAGS = -Wall -Wextra -std=c99
 FLEX = flex
 BISON = bison
 
@@ -9,6 +10,7 @@ LEXER_DIR = lexer
 PARSER_DIR = parser
 AST_DIR = ast
 SEMANTICA_DIR = analise_semantica
+TABELA_DIR = tabela_simbolos
 TEST_DIR = codigos_teste
 
 # Arquivos
@@ -17,10 +19,10 @@ PARSER_C = $(PARSER_DIR)/parser.tab.c
 PARSER_H = $(PARSER_DIR)/parser.tab.h
 AST = $(AST_DIR)/ast.c
 SEMANTICA = $(SEMANTICA_DIR)/semantica.c
+TABELA = $(TABELA_DIR)/tabela.c
 
-# Executáveis
+# Executável
 EXEC = executavel
-TESTE_SEMANTICA = teste_semantica
 
 # Regra principal
 all: $(EXEC)
@@ -34,38 +36,90 @@ $(LEXER): $(LEXER_DIR)/lexer.l
 	$(FLEX) -o $(LEXER) $(LEXER_DIR)/lexer.l
 
 # Compila o interpretador com análise semântica
-$(EXEC): $(PARSER_C) $(LEXER) $(AST) $(SEMANTICA)
-	$(CC) $(PARSER_C) $(LEXER) $(AST) $(SEMANTICA) -o $(EXEC)
+$(EXEC): $(PARSER_C) $(LEXER) $(AST) $(TABELA) $(SEMANTICA)
+	$(CC) $(CFLAGS) $(PARSER_C) $(LEXER) $(AST) $(TABELA) $(SEMANTICA) -o $(EXEC)
 
 # Limpa arquivos gerados
 clean:
 	rm -f $(LEXER) $(PARSER_C) $(PARSER_H) $(EXEC) $(TESTE_SEMANTICA)
+	rm -f *.o
+
+# Limpa tudo e recompila
+rebuild: clean all
 
 # Roda o executável manualmente
 run:
 	./$(EXEC)
 
-# Roda com um arquivo de teste
-run-hello:
-	./$(EXEC) < $(TEST_DIR)/hello.cpp
+# Testa todos os arquivos de teste
+test-all: test-simple test-io test-expressao test-math test-conditional test-loop test-hello test-entrada-saida test-semantica
 
-run-conditional:
-	./$(EXEC) < $(TEST_DIR)/conditional.cpp
+# Testes individuais
+test-simple:
+	@echo "=== Testando simple.cpp ==="
+	./$(EXEC) $(TEST_DIR)/simple.cpp
 
-run-loop:
-	./$(EXEC) < $(TEST_DIR)/loop.cpp
+test-io:
+	@echo "=== Testando io_minimal.cpp ==="
+	echo -e "5\n8" | ./$(EXEC) $(TEST_DIR)/io_minimal.cpp
 
-run-math:
-	./$(EXEC) < $(TEST_DIR)/math.cpp
+test-expressao:
+	@echo "=== Testando teste_expressao.cpp ==="
+	./$(EXEC) $(TEST_DIR)/teste_expressao.cpp
 
-# Regra para mostrar ajuda
+test-math:
+	@echo "=== Testando math.cpp ==="
+	./$(EXEC) $(TEST_DIR)/math.cpp
+
+test-semantica:
+	@echo "=== Testando semantica.cpp ==="
+	./$(EXEC) $(TEST_DIR)/erro_semantico.cpp
+
+test-conditional:
+	@echo "=== Testando conditional.cpp ==="
+	./$(EXEC) $(TEST_DIR)/conditional.cpp
+
+test-loop:
+	@echo "=== Testando loop.cpp ==="
+	./$(EXEC) $(TEST_DIR)/loop.cpp
+
+test-hello:
+	@echo "=== Testando hello.cpp ==="
+	./$(EXEC) $(TEST_DIR)/hello.cpp
+
+test-entrada-saida:
+	@echo "=== Testando entrada_saida.cpp ==="
+	./$(EXEC) $(TEST_DIR)/entrada_saida.cpp
+
+# Teste interativo
+test-interactive:
+	@echo "=== Teste Interativo ==="
+	@echo "Digite código C++ (Ctrl+D para finalizar):"
+	./$(EXEC)
+
+# Teste com entrada automática
+test-auto:
+	@echo "=== Teste Automático ==="
+	echo "int a = 10; int b = 5; int c = a + b; cout << c;" | ./$(EXEC)
+
+
+# Ajuda
 help:
-	@echo "Comandos disponíveis:"
-	@echo "  make all              - Compila tudo"
-	@echo "  make clean            - Limpa arquivos gerados"
-	@echo "  make run              - Roda o interpretador"
-	@echo "  make teste-semantica  - Roda o teste de análise semântica"
-	@echo "  make run-hello        - Roda com hello.cpp"
-	@echo "  make run-conditional  - Roda com conditional.cpp"
-	@echo "  make run-loop         - Roda com loop.cpp"
-	@echo "  make run-math         - Roda com math.cpp"
+	@echo "Makefile do Interpretador C++"
+	@echo ""
+	@echo "Targets disponíveis:"
+	@echo "  all          - Compila o interpretador"
+	@echo "  clean        - Remove arquivos gerados"
+	@echo "  rebuild      - Limpa e recompila"
+	@echo "  run          - Executa o interpretador"
+	@echo "  test-all     - Testa todos os arquivos de teste"
+	@echo "  test-semantica - Roda o teste de análise semântica"
+	@echo "  test-simple  - Testa simple.cpp"
+	@echo "  test-io      - Testa entrada/saída"
+	@echo "  test-expressao - Testa expressões"
+	@echo "  test-interactive - Modo interativo"
+	@echo "  test-auto    - Teste automático"
+	@echo "  help         - Mostra esta ajuda"
+
+# Regra padrão
+.PHONY: all clean rebuild run test-all test-simple test-io test-expressao test-math test-conditional test-loop test-hello test-entrada-saida test-interactive test-auto test-semantica help
